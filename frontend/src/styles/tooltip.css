@@ -1,0 +1,158 @@
+/**
+ * Global Tooltip Styles
+ * Ensures consistent tooltip appearance across all components
+ */
+
+/* Prevent tooltip text selection and interaction */
+.tooltip {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Smooth font rendering for better readability */
+.tooltip-content {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Ensure tooltips appear above modals and other high z-index elements */
+.tooltip {
+  z-index: 2147483647 !important; /* Maximum z-index to ensure tooltips appear above all other elements */
+  position: fixed !important; /* Ensure fixed positioning for portal-rendered tooltips */
+}
+
+/* Ensure tooltip content also has high z-index */
+.tooltip-content {
+  z-index: 2147483647 !important;
+  position: relative;
+}
+
+/* Fix for tooltips in header */
+.studio-header .tooltip {
+  z-index: 2147483647 !important;
+}
+
+/* Ensure tooltip arrows are visible */
+.tooltip-arrow {
+  z-index: 2147483647 !important;
+}
+
+/* Animation performance optimization */
+.tooltip,
+.tooltip-arrow {
+  will-change: transform, opacity;
+}
+
+/* Prevent tooltip overflow in edge cases */
+@media (max-width: 768px) {
+  .tooltip {
+    max-width: 250px !important;
+  }
+  
+  .tooltip-content {
+    font-size: 11px !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .tooltip {
+    border-width: 2px !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .tooltip {
+    transition: none !important;
+  }
+}
+
+/* Fix for tooltips in scrollable containers */
+.panel .tooltip,
+.modal .tooltip {
+  position: fixed !important;
+}
+
+/* Ensure tooltip arrows render correctly */
+.tooltip-arrow {
+  pointer-events: none;
+}
+
+/* Override any conflicting styles from other libraries */
+.tooltip * {
+  box-sizing: border-box;
+}
+
+/* Ensure consistent rendering across browsers */
+.tooltip {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  writing-mode: horizontal-tb !important; /* Prevent vertical text */
+  text-orientation: mixed !important;
+}
+
+/* Prevent tooltip content from being affected by parent transforms */
+.tooltip-content {
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+  transform: none !important;
+  white-space: normal !important;
+  max-width: 300px !important;
+  word-wrap: break-word !important;
+}
+
+/* Fix for tooltips that might overflow viewport */
+.tooltip {
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+}
+
+/* Ensure tooltips in quantum programs library display correctly */
+.quantum-programs-library .tooltip {
+  position: fixed !important;
+  z-index: 2147483647 !important;
+}
+
+/* Fix tooltip positioning in scrollable containers */
+.programs-container .tooltip,
+.panel-content .tooltip {
+  position: fixed !important;
+}
+
+/* Special handling for header tooltips to prevent clipping */
+.studio-header [data-tooltip]::before,
+.studio-header [data-tooltip]::after,
+.header-metrics [data-tooltip]::before,
+.header-metrics [data-tooltip]::after {
+  position: fixed !important;
+  z-index: 2147483647 !important;
+}
+
+/* Ensure tooltips in headers are not clipped by overflow */
+.studio-header .tooltip,
+.header-metrics .tooltip,
+.header-data .tooltip {
+  position: fixed !important;
+  z-index: 2147483647 !important;
+}
+
+/* Fix for quantum programs library specific tooltip issues */
+.quantum-programs-library .program-item .tooltip {
+  position: fixed !important;
+  z-index: 2147483647 !important;
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+}
+
+/* Ensure tooltip trigger elements don't interfere with positioning */
+.tooltip-trigger,
+[data-tooltip] {
+  position: relative !important;
+  z-index: auto !important;
+}

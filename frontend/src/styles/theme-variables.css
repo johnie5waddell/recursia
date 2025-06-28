@@ -1,0 +1,176 @@
+/**
+ * Theme Variables CSS
+ * Comprehensive CSS variables for dynamic theming based on primary color
+ * All colors are derived from the primary color palette
+ */
+
+:root {
+  /* Primary color variables - set by JavaScript */
+  --color-primary: #ffd700; /* Quantum Gold default */
+  --color-primary-dark: #ccac00;
+  --color-primary-light: #ffe033;
+  --color-primary-very-light: #ffeb66;
+  --color-primary-alpha-10: rgba(255, 215, 0, 0.1);
+  --color-primary-alpha-20: rgba(255, 215, 0, 0.2);
+  --color-primary-alpha-30: rgba(255, 215, 0, 0.3);
+  --color-primary-alpha-50: rgba(255, 215, 0, 0.5);
+  
+  /* Semantic colors */
+  --color-success: #10b981;
+  --color-success-light: #34d399;
+  --color-warning: #f59e0b;
+  --color-warning-light: #fbbf24;
+  --color-error: #ef4444;
+  --color-error-light: #f87171;
+  --color-info: #3b82f6;
+  --color-info-light: #60a5fa;
+  
+  /* Text colors for dark mode */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #e0e0e0;
+  --color-text-tertiary: #b0b0b0;
+  --color-text-disabled: #808080;
+  
+  /* Background colors */
+  --color-bg-primary: #0a0a0a;
+  --color-bg-secondary: #1a1a1a;
+  --color-bg-tertiary: #2a2a2a;
+  --color-bg-hover: rgba(255, 255, 255, 0.08);
+  
+  /* Border colors */
+  --color-border-primary: rgba(255, 255, 255, 0.1);
+  --color-border-secondary: rgba(255, 255, 255, 0.2);
+  --color-border-focus: var(--color-primary);
+  
+  /* Legacy support variables */
+  --primary-color: var(--color-primary);
+  --primary-color-dark: var(--color-primary-dark);
+  --primary-color-light: var(--color-primary-light);
+  --border-glow: var(--color-primary-alpha-50);
+}
+
+/* Override hardcoded colors in existing components */
+
+/* OSH Calculations Panel */
+.osh-card-conservation {
+  background: var(--color-bg-secondary) !important;
+  border-color: var(--color-primary-alpha-30) !important;
+}
+
+.osh-status-success {
+  background: var(--color-success-alpha-10, rgba(16, 185, 129, 0.1)) !important;
+  color: var(--color-success) !important;
+  border-color: var(--color-success-alpha-30, rgba(16, 185, 129, 0.3)) !important;
+}
+
+.osh-status-error {
+  background: var(--color-error-alpha-10, rgba(239, 68, 68, 0.1)) !important;
+  color: var(--color-error) !important;
+  border-color: var(--color-error-alpha-30, rgba(239, 68, 68, 0.3)) !important;
+}
+
+.osh-detail-label {
+  color: var(--color-text-secondary) !important;
+}
+
+.osh-detail-value {
+  color: var(--color-text-primary) !important;
+}
+
+.osh-value-success {
+  color: var(--color-success) !important;
+}
+
+.osh-value-warning {
+  color: var(--color-warning) !important;
+}
+
+/* Execution Log */
+.log-entry-info {
+  color: var(--color-info) !important;
+}
+
+.log-entry-success {
+  color: var(--color-success) !important;
+}
+
+.log-entry-warning {
+  color: var(--color-warning) !important;
+}
+
+.log-entry-error {
+  color: var(--color-error) !important;
+}
+
+.log-entry-debug {
+  color: var(--color-text-tertiary) !important;
+}
+
+/* General text color fixes */
+.metric-label,
+.stat-label,
+.label-text {
+  color: var(--color-text-secondary) !important;
+}
+
+.metric-value,
+.stat-value,
+.value-text {
+  color: var(--color-text-primary) !important;
+}
+
+/* Button and input styles */
+button {
+  color: var(--color-text-primary);
+}
+
+input,
+textarea,
+select {
+  color: var(--color-text-primary);
+  background: var(--color-bg-hover);
+  border-color: var(--color-border-primary);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-border-focus);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Dropdown and modal backgrounds */
+.dropdown-menu,
+.modal-content,
+.popup-content {
+  background: var(--color-bg-primary);
+  border-color: var(--color-border-primary);
+}
+
+/* Chart colors */
+.chart-grid-line {
+  stroke: var(--color-border-primary) !important;
+}
+
+.chart-text {
+  fill: var(--color-text-secondary) !important;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-alpha-30);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-alpha-50);
+}

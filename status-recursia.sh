@@ -1,0 +1,8 @@
+#!/bin/bash
+# Convenience wrapper to call the actual status script
+
+# Get the directory of this script (project root)
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Call the actual status script
+exec "$PROJECT_ROOT/scripts/deployment/status-recursia.sh" "$@"

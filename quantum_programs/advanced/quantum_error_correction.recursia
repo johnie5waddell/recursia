@@ -1,0 +1,72 @@
+// Simple Quantum Error Correction
+// Three-qubit bit flip code
+
+state logical_qubit : quantum_type {
+  state_qubits: 3,
+  state_coherence: 0.95,
+  state_entropy: 0.05
+};
+
+observer error_detector : standard_observer {
+  observer_focus: logical_qubit,
+  observer_collapse_threshold: 0.8,
+  observer_self_awareness: 0.7
+};
+
+print "Quantum Error Correction Demo";
+
+// Encode logical |0⟩ as |000⟩
+// (In real code, would encode arbitrary state)
+print "Encoding logical qubit...";
+
+// For demonstration, put first qubit in superposition
+apply H_gate to logical_qubit qubit 0;
+
+// Encode by copying to other qubits
+apply CNOT_gate to logical_qubit qubits [0, 1];
+apply CNOT_gate to logical_qubit qubits [0, 2];
+
+print "Encoded as (|000⟩ + |111⟩)/√2";
+
+// Simulate error on middle qubit
+print "Simulating bit flip error on qubit 1...";
+apply X_gate to logical_qubit qubit 1;
+
+// Syndrome detection (simplified)
+let q0 = 0;
+let q1 = 0;
+let q2 = 0;
+
+measure logical_qubit qubit 0 into q0;
+measure logical_qubit qubit 1 into q1;
+measure logical_qubit qubit 2 into q2;
+
+print "Measurements:";
+print "Q0:";
+print q0;
+print "Q1:";
+print q1;
+print "Q2:";
+print q2;
+
+// Check for errors using majority voting
+// Since we can't reassign variables, we'll use direct logic
+if (q0 == q1) {
+  if (q1 == q2) {
+    print "No errors detected - all qubits agree";
+  } else {
+    print "Error detected on qubit 2";
+  }
+} else {
+  if (q0 == q2) {
+    print "Error detected on qubit 1";
+  } else {
+    print "Error detected on qubit 0";
+  }
+}
+
+// In a real error correction protocol, we would apply corrections
+// based on the syndrome measurements without collapsing the logical qubit
+
+// Error correction protocol complete
+print "Error correction protocol finished";

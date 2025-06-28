@@ -1,0 +1,89 @@
+================================================================================
+ML DECODER TRAINING REPORT
+================================================================================
+Generated: 2025-06-27 14:29:22
+
+
+SURFACE_CODE RESULTS:
+----------------------------------------
+
+distance_3:
+  Training samples: 20108
+  Final accuracy: 0.983
+  Best validation accuracy: 0.982
+  Training time: 20.9s
+  Threshold behavior:
+    p=0.001: success_rate=1.000
+    p=0.005: success_rate=0.990
+    p=0.010: success_rate=0.990
+    p=0.020: success_rate=0.970
+    p=0.050: success_rate=0.940
+    p=0.100: success_rate=0.870
+
+distance_5:
+  Training samples: 20164
+  Final accuracy: 0.998
+  Best validation accuracy: 0.996
+  Training time: 118.1s
+  Threshold behavior:
+    p=0.001: success_rate=1.000
+    p=0.005: success_rate=1.000
+    p=0.010: success_rate=1.000
+    p=0.020: success_rate=1.000
+    p=0.050: success_rate=0.980
+    p=0.100: success_rate=0.920
+
+distance_7:
+  Training samples: 20183
+  Final accuracy: 0.742
+  Best validation accuracy: 0.677
+  Training time: 38.9s
+  Threshold behavior:
+    p=0.001: success_rate=0.970
+    p=0.005: success_rate=0.830
+    p=0.010: success_rate=0.810
+    p=0.020: success_rate=0.740
+    p=0.050: success_rate=0.330
+    p=0.100: success_rate=0.060
+
+STEANE_CODE RESULTS:
+----------------------------------------
+
+distance_3:
+  Training samples: 9700
+  Final accuracy: 0.996
+  Best validation accuracy: 0.940
+  Training time: 7.5s
+  Threshold behavior:
+    p=0.001: success_rate=1.000
+    p=0.005: success_rate=1.000
+    p=0.010: success_rate=1.000
+    p=0.020: success_rate=0.990
+    p=0.050: success_rate=0.980
+    p=0.100: success_rate=0.850
+
+SHOR_CODE RESULTS:
+----------------------------------------
+
+distance_3:
+  Training samples: 9708
+  Final accuracy: 0.993
+  Best validation accuracy: 0.991
+  Training time: 12.6s
+  Threshold behavior:
+    p=0.001: success_rate=1.000
+    p=0.005: success_rate=0.990
+    p=0.010: success_rate=1.000
+    p=0.020: success_rate=0.970
+    p=0.050: success_rate=0.940
+    p=0.100: success_rate=0.900
+
+================================================================================
+SUMMARY:
+----------------------------------------
+Total models trained: 5
+Successfully trained (>80% accuracy): 4
+Success rate: 80.0%
+
+All ML decoders are now trained and ready for use!
+Models saved to: models/qec_decoders/

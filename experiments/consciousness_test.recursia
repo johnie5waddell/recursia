@@ -1,0 +1,71 @@
+// Consciousness Test Experiment
+// Tests OSH consciousness principles
+
+state conscious_field : quantum_type {
+  state_qubits: 4,
+  state_coherence: 0.99,
+  state_entropy: 0.01
+};
+
+observer primary_consciousness : conscious_observer {
+  observer_focus: conscious_field,
+  observer_collapse_threshold: 0.85,
+  observer_self_awareness: 0.95
+};
+
+observer secondary_consciousness : standard_observer {
+  observer_focus: conscious_field,
+  observer_collapse_threshold: 0.5,
+  observer_self_awareness: 0.3
+};
+
+print "Consciousness emergence experiment";
+
+// Create complex entangled state
+apply H_gate to conscious_field qubit 0;
+apply H_gate to conscious_field qubit 1;
+apply CNOT_gate to conscious_field qubits [0, 2];
+apply CNOT_gate to conscious_field qubits [1, 3];
+apply CZ_gate to conscious_field qubits [2, 3];
+
+print "Created complex entangled conscious field";
+
+// Evolve the system
+apply RY_gate to conscious_field qubit 0 (0.5);
+apply RY_gate to conscious_field qubit 1 (0.7);
+
+print "Field evolved under conscious observation";
+
+// Measure integrated information
+let m0 = 0;
+let m1 = 0;
+let m2 = 0;
+let m3 = 0;
+
+measure conscious_field qubit 0 into m0;
+measure conscious_field qubit 1 into m1;
+measure conscious_field qubit 2 into m2;
+measure conscious_field qubit 3 into m3;
+
+print "Consciousness field measurements:";
+print m0;
+print m1;
+print m2;
+print m3;
+
+// Calculate simple correlation
+let corr_count = 0;
+if (m0 == m2) {
+  corr_count = corr_count + 1;
+}
+if (m1 == m3) {
+  corr_count = corr_count + 1;
+}
+
+print "Correlation strength:";
+print corr_count;
+print "/2";
+
+// Consciousness experiment complete
+print "Consciousness experiment complete";
+print "OSH prediction: High correlation indicates emergent consciousness";

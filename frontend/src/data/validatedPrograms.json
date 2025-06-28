@@ -1,0 +1,134 @@
+{
+  "validation": [
+    {
+      "name": "OSH Batch Validation",
+      "path": "quantum_programs/validation/osh_batch_validation.recursia",
+      "category": "validation",
+      "description": "Batch validation of OSH predictions"
+    },
+    {
+      "name": "OSH Complete Validation Simple",
+      "path": "quantum_programs/validation/osh_complete_validation_simple.recursia",
+      "category": "validation",
+      "description": "Simplified complete OSH validation"
+    },
+    {
+      "name": "OSH Comprehensive Test",
+      "path": "quantum_programs/validation/osh_comprehensive_test.recursia",
+      "category": "validation",
+      "description": "Comprehensive OSH theory testing"
+    },
+    {
+      "name": "OSH Comprehensive Validation",
+      "path": "quantum_programs/validation/osh_comprehensive_validation.recursia",
+      "category": "validation",
+      "description": "Full comprehensive validation with 12 qubits"
+    },
+    {
+      "name": "OSH Conservation Test",
+      "path": "quantum_programs/validation/osh_conservation_test.recursia",
+      "category": "validation",
+      "description": "Conservation law validation"
+    },
+    {
+      "name": "OSH Conservation Time Series",
+      "path": "quantum_programs/validation/osh_conservation_time_series.recursia",
+      "category": "validation",
+      "description": "Time series analysis of conservation laws"
+    },
+    {
+      "name": "OSH Empirical Test",
+      "path": "quantum_programs/validation/osh_empirical_test.recursia",
+      "category": "validation",
+      "description": "Empirical validation of OSH predictions"
+    },
+    {
+      "name": "OSH Final Validation",
+      "path": "quantum_programs/validation/osh_final_validation.recursia",
+      "category": "validation",
+      "description": "Final production-ready validation"
+    },
+    {
+      "name": "OSH Metrics Test",
+      "path": "quantum_programs/validation/osh_metrics_test.recursia",
+      "category": "validation",
+      "description": "OSH metrics calculation test"
+    },
+    {
+      "name": "OSH Minimal Test",
+      "path": "quantum_programs/validation/osh_minimal_test.recursia",
+      "category": "validation",
+      "description": "Minimal OSH validation test"
+    },
+    {
+      "name": "OSH Simple Test",
+      "path": "quantum_programs/validation/osh_simple_test.recursia",
+      "category": "validation",
+      "description": "Simple OSH validation"
+    },
+    {
+      "name": "OSH Validated",
+      "path": "quantum_programs/validation/osh_validated.recursia",
+      "category": "validation",
+      "description": "Pre-validated OSH program"
+    },
+    {
+      "name": "OSH Validation Complete",
+      "path": "quantum_programs/validation/osh_validation_complete.recursia",
+      "category": "validation",
+      "description": "Complete OSH validation suite"
+    },
+    {
+      "name": "OSH Validation Complete Fixed",
+      "path": "quantum_programs/validation/osh_validation_complete_fixed.recursia",
+      "category": "validation",
+      "description": "Fixed complete validation suite"
+    },
+    {
+      "name": "OSH Validation Minimal",
+      "path": "quantum_programs/validation/osh_validation_minimal.recursia",
+      "category": "validation",
+      "description": "Minimal validation program"
+    },
+    {
+      "name": "OSH Validation Optimized",
+      "path": "quantum_programs/validation/osh_validation_optimized.recursia",
+      "category": "validation",
+      "description": "Performance-optimized validation"
+    },
+    {
+      "name": "OSH Validation Summary",
+      "path": "quantum_programs/validation/osh_validation_summary.recursia",  
+      "category": "validation",
+      "description": "Summary validation program"
+    },
+    {
+      "name": "Test Entangle",
+      "path": "quantum_programs/validation/test_entangle.recursia",
+      "category": "validation",
+      "description": "Entanglement syntax test"
+    }
+  ],
+  "workingPrograms": [
+    {
+      "name": "OSH Comprehensive Validation (12 qubits)",
+      "path": "quantum_programs/validation/osh_comprehensive_validation.recursia",
+      "category": "flagship",
+      "qubits": 12,
+      "description": "Complete validation of all 9 OSH theoretical predictions with 12 qubits",
+      "features": ["Linear approximation for Φ", "Conservation law validation", "Gravitational coupling", "Memory field dynamics"]
+    },
+    {
+      "name": "OSH Final Validation",
+      "path": "quantum_programs/validation/osh_final_validation.recursia",
+      "category": "production",
+      "description": "Production-ready OSH validation suite"
+    },
+    {
+      "name": "OSH Conservation Test",
+      "path": "quantum_programs/validation/osh_conservation_test.recursia",
+      "category": "physics",
+      "description": "Validates the conservation inequality d/dt(I×K) ≤ α·E + β·Q"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+OSH EMPIRICAL VALIDATION REPORT
+============================================================
+Generated: 2025-06-19T17:24:53.095658
+Total iterations: 1000
+Successful iterations: 1000
+Failed iterations: 0
+Success rate: 100.0%
+Execution time: 26.5 seconds
+
+VALIDATION SUMMARY
+------------------------------------------------------------
+All predictions validated: False
+Gravity coupling: FAILED
+Conservation law: FAILED
+Consciousness emergence: FAILED
+Decoherence time: FAILED
+RSP attractors: FAILED
+Memory strain: FAILED
+Observer effects: PASSED
+Wave echoes: FAILED
+Anisotropic diffusion: PASSED
+
+STATISTICAL SUMMARY
+------------------------------------------------------------
+Phi mean: 0.000
+Phi std: 0.000
+Phi max: 0.000
+Emergence rate: 0.0%
+RSP mean: 0.000
+RSP std: 0.000
+RSP max: 0.000
+Conservation violation mean: 1.383607
+Conservation violation max: 4.473616
+Within tolerance rate: 0.0%
+
+DETAILED FINDINGS
+------------------------------------------------------------
+
+GRAVITY_COUPLING:
+(0.0, 0.0, np.False_, 'FAILED')
+
+CONSERVATION_LAW:
+(1.3836074206396802, 0.0, np.False_, 'FAILED')
+
+CONSCIOUSNESS:
+(0.0, 6.688516407392795e-13, 1.2892525713679608e-13, np.False_, 'FAILED')
+
+DECOHERENCE:
+(0.9499999999999997, 25.4, np.False_, 'FAILED')
+
+RSP_ATTRACTORS:
+(2.8958975594486857e-11, np.False_, 'FAILED')
+
+MEMORY_STRAIN:
+(0.0, 0, np.False_, 'FAILED')
+
+OBSERVER_EFFECTS:
+(True, 'PASSED')
+
+WAVE_ECHOES:
+(0.0, np.False_, 'FAILED')
+
+ANISOTROPIC_DIFFUSION:
+(True, 'PASSED')

@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursia Quantum Computing Dashboard</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚛️</text></svg>">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">⚛️ Recursia Dashboard</div>
+            <nav class="nav-menu">
+                <a href="/" class="nav-item">Home</a>
+                <a href="/experiments" class="nav-item">Experiments</a>
+                <a href="/visualization" class="nav-item">3D Viz</a>
+                <a href="/api/docs" class="nav-item">API</a>
+            </nav>
+            <div style="margin-left: auto;">
+                <span class="status-indicator status-offline" id="connection-status"></span>
+                <span>Connected</span>
+            </div>
+        </header>
+        
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3>System Metrics</h3>
+            
+            <div class="metric-card">
+                <div class="metric-title">Coherence</div>
+                <div class="metric-value" id="metric-coherence">0.000</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">Entropy</div>
+                <div class="metric-value" id="metric-entropy">0.000</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">Strain</div>
+                <div class="metric-value" id="metric-strain">0.000</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">Quantum States</div>
+                <div class="metric-value" id="metric-quantum-states">0</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">Observers</div>
+                <div class="metric-value" id="metric-observers">0</div>
+            </div>
+            
+            <div class="metric-card">
+                <div class="metric-title">Render FPS</div>
+                <div class="metric-value" id="metric-render-fps">0.0</div>
+            </div>
+        </aside>
+        
+        <!-- Main Visualization Area -->
+        <main class="main-visualization">
+            <div class="quantum-visualization">
+                <canvas id="visualization-canvas" class="viz-canvas" width="800" height="600"></canvas>
+                <div id="viz-controls" style="position: absolute; top: 10px; right: 10px;">
+                    <button class="btn" onclick="dashboard.requestVisualizationUpdate()">Refresh</button>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Control Panel -->
+        <aside class="control-panel">
+            <h3>Experiment Builder</h3>
+            
+            <div class="experiment-builder">
+                <form id="experiment-form">
+                    <div style="margin-bottom: 10px;">
+                        <label for="exp-name">Name:</label>
+                        <input type="text" id="exp-name" name="name" required 
+                               style="width: 100%; padding: 5px; background: #000; color: #fff; border: 1px solid #00ffff;">
+                    </div>
+                    
+                    <div style="margin-bottom: 10px;">
+                        <label for="exp-description">Description:</label>
+                        <input type="text" id="exp-description" name="description" required
+                               style="width: 100%; padding: 5px; background: #000; color: #fff; border: 1px solid #00ffff;">
+                    </div>
+                    
+                    <div style="margin-bottom: 10px;">
+                        <label for="code-editor">Recursia Code:</label>
+                        <textarea id="code-editor" class="code-editor" placeholder="// Enter your Recursia quantum code here
+state MyQuantumState : quantum_type {
+    state_qubits: 2,
+    state_coherence: 1.0
+}
+
+apply H_gate to MyQuantumState qubit 0;
+visualize probability_distribution of MyQuantumState;">// Enter your Recursia quantum code here
+state MyQuantumState : quantum_type {
+    state_qubits: 2,
+    state_coherence: 1.0
+}
+
+apply H_gate to MyQuantumState qubit 0;
+visualize probability_distribution of MyQuantumState;</textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success">Create & Run</button>
+                    <button type="button" class="btn" onclick="dashboard.loadExperiments()">Refresh</button>
+                </form>
+            </div>
+            
+            <h3>Experiment Library</h3>
+            <div id="experiment-list" style="max-height: 300px; overflow-y: auto;">
+                <!-- Experiments will be loaded here -->
+            </div>
+        </aside>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div>Recursia Quantum Computing Platform v1.0.0</div>
+            <div id="system-info">
+                Uptime: <span id="uptime">0s</span> | 
+                Requests: <span id="request-count">0</span>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+                                    background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000;">
+        <div style="text-align: center; color: #fff;">
+            <div class="loading-spinner"></div>
+            <div class="loading-message">Loading...</div>
+        </div>
+    </div>
+    
+    <!-- Alerts Container -->
+    <div id="alerts-container" style="position: fixed; top: 70px; right: 20px; z-index: 1000;"></div>
+    
+    <script src="/static/dashboard.js"></script>
+</body>
+</html>

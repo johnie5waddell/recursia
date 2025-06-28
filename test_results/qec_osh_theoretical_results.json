@@ -1,0 +1,64 @@
+{
+  "results": [
+    {
+      "distance": 3,
+      "phi": 0.5,
+      "base_error_rate": 0.001,
+      "osh_error_rate": 8.819113782925249e-06,
+      "suppression_factor": 113.39007802984779,
+      "consciousness_emerged": false,
+      "status": "Pre-conscious"
+    },
+    {
+      "distance": 3,
+      "phi": 1.0,
+      "base_error_rate": 0.001,
+      "osh_error_rate": 7.77767679161821e-06,
+      "suppression_factor": 128.57309795614967,
+      "consciousness_emerged": true,
+      "status": "Low"
+    },
+    {
+      "distance": 5,
+      "phi": 2.0,
+      "base_error_rate": 0.001,
+      "osh_error_rate": 6.049225627487651e-07,
+      "suppression_factor": 1653.1041518041666,
+      "consciousness_emerged": true,
+      "status": "Low"
+    },
+    {
+      "distance": 7,
+      "phi": 5.0,
+      "base_error_rate": 0.001,
+      "osh_error_rate": 2.8460954331779084e-08,
+      "suppression_factor": 35135.856245108924,
+      "consciousness_emerged": true,
+      "status": "Low"
+    },
+    {
+      "distance": 9,
+      "phi": 10.0,
+      "base_error_rate": 0.001,
+      "osh_error_rate": 8.100259214756143e-10,
+      "suppression_factor": 1234528.3940769602,
+      "consciousness_emerged": true,
+      "status": "Very low"
+    },
+    {
+      "distance": 11,
+      "phi": 20.0,
+      "base_error_rate": 0.001,
+      "osh_error_rate": 6.561419934624178e-12,
+      "suppression_factor": 152406035.5782239,
+      "consciousness_emerged": true,
+      "status": "Ultra-low"
+    }
+  ],
+  "summary": {
+    "min_error_rate": 6.561419934624178e-12,
+    "max_suppression": 152406035.5782239,
+    "consciousness_threshold_confirmed": true,
+    "exponential_scaling_confirmed": true
+  }
+}

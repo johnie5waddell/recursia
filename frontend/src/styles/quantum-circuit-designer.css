@@ -1,0 +1,285 @@
+/**
+ * Quantum Circuit Designer Styles
+ * Modern, sleek styling for the quantum circuit builder
+ */
+
+.quantum-circuit-designer {
+  --qcd-primary: #4fc3f7;
+  --qcd-bg-primary: #0a0a0a;
+  --qcd-bg-secondary: rgba(0, 0, 0, 0.5);
+  --qcd-bg-tertiary: rgba(255, 255, 255, 0.05);
+  --qcd-border: rgba(79, 195, 247, 0.3);
+  --qcd-text-primary: #ffffff;
+  --qcd-text-secondary: #888888;
+  --qcd-text-tertiary: #666666;
+  --qcd-success: #4caf50;
+  --qcd-error: #f44336;
+  --qcd-warning: #ff9800;
+}
+
+/* Gate hover effects */
+.quantum-circuit-designer svg g[style*="cursor: pointer"]:hover {
+  filter: brightness(1.2);
+  transition: filter 0.2s ease;
+}
+
+/* Smooth animations */
+.quantum-circuit-designer button,
+.quantum-circuit-designer select,
+.quantum-circuit-designer input {
+  transition: all 0.2s ease;
+}
+
+.quantum-circuit-designer button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(79, 195, 247, 0.3);
+}
+
+.quantum-circuit-designer button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Gate library scrollbar */
+.quantum-circuit-designer *::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.quantum-circuit-designer *::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.quantum-circuit-designer *::-webkit-scrollbar-thumb {
+  background: rgba(79, 195, 247, 0.3);
+  border-radius: 4px;
+}
+
+.quantum-circuit-designer *::-webkit-scrollbar-thumb:hover {
+  background: rgba(79, 195, 247, 0.5);
+}
+
+/* Circuit canvas grid pattern */
+.circuit-canvas {
+  background-image: 
+    linear-gradient(var(--qcd-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--qcd-border) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: -1px -1px;
+}
+
+/* Gate type indicators */
+.gate-single-qubit {
+  stroke: var(--qcd-primary);
+  stroke-width: 2;
+}
+
+.gate-two-qubit {
+  stroke: #ec407a;
+  stroke-width: 2;
+}
+
+.gate-multi-qubit {
+  stroke: #ab47bc;
+  stroke-width: 2;
+}
+
+/* Execution status badges */
+.execution-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.execution-status.completed {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+}
+
+.execution-status.failed {
+  background: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+}
+
+.execution-status.running {
+  background: rgba(79, 195, 247, 0.2);
+  color: var(--qcd-primary);
+}
+
+.execution-status.pending {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--qcd-text-tertiary);
+}
+
+/* Results visualization */
+.measurement-result {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  margin: 2px;
+}
+
+/* Dropdown styling */
+.quantum-circuit-designer select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234fc3f7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 1em;
+  padding-right: 2.5rem !important;
+}
+
+.quantum-circuit-designer select:hover {
+  border-color: var(--qcd-primary) !important;
+  background-color: rgba(79, 195, 247, 0.05) !important;
+}
+
+.quantum-circuit-designer select:focus {
+  outline: none;
+  border-color: var(--qcd-primary) !important;
+  box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.2);
+}
+
+.quantum-circuit-designer option {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  padding: 8px;
+}
+
+.quantum-circuit-designer option:hover {
+  background-color: rgba(79, 195, 247, 0.2);
+}
+
+.measurement-result:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Parameter input styling */
+.gate-parameter-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--qcd-border);
+  border-radius: 4px;
+  padding: 4px 8px;
+  color: var(--qcd-text-primary);
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  width: 60px;
+  text-align: center;
+}
+
+.gate-parameter-input:focus {
+  outline: none;
+  border-color: var(--qcd-primary);
+  background: rgba(79, 195, 247, 0.1);
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Circuit validation errors */
+.circuit-error {
+  padding: 8px 12px;
+  background: rgba(244, 67, 54, 0.1);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  border-radius: 4px;
+  color: #ff6b6b;
+  font-size: 12px;
+  margin: 4px 0;
+}
+
+/* Drag and drop visual feedback */
+.gate-drop-zone {
+  stroke: var(--qcd-primary);
+  stroke-width: 2;
+  stroke-dasharray: 5, 5;
+  fill: rgba(79, 195, 247, 0.1);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+/* Settings modal backdrop */
+.settings-backdrop {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Export format buttons */
+.export-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.export-button:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.export-button:active:before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .quantum-circuit-designer .gate-library {
+    width: 150px !important;
+  }
+  
+  .quantum-circuit-designer button {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+}
+
+/* Dark mode optimizations */
+@media (prefers-color-scheme: dark) {
+  .quantum-circuit-designer {
+    color-scheme: dark;
+  }
+}
+
+/* Print styles */
+@media print {
+  .quantum-circuit-designer {
+    background: white;
+    color: black;
+  }
+  
+  .quantum-circuit-designer svg {
+    background: white !important;
+  }
+  
+  .quantum-circuit-designer button,
+  .quantum-circuit-designer select {
+    display: none;
+  }
+}

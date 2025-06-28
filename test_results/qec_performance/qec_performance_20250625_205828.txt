@@ -1,0 +1,42 @@
+================================================================================
+QUANTUM ERROR CORRECTION PERFORMANCE ANALYSIS
+================================================================================
+Generated: 2025-06-25 20:58:28
+
+ERROR RATE SUPPRESSION
+----------------------------------------
+
+Distance-3 Code:
+Physical Rate → Logical Rate (Suppression)
+  1.00e-04 → 0.00e+00 (infx)
+  1.00e-03 → 9.00e-03 (0.1x)
+  1.00e-02 → 8.29e-01 (0.0x)
+
+Distance-5 Code:
+Physical Rate → Logical Rate (Suppression)
+  1.00e-04 → 0.00e+00 (infx)
+  1.00e-03 → 2.00e-03 (0.5x)
+  1.00e-02 → 7.72e-01 (0.0x)
+
+
+FIDELITY IMPROVEMENT
+----------------------------------------
+
+surface_code:
+  Bell: 0.9980 → 0.9660 (+-3.2%)
+  GHZ: 0.9960 → 0.9520 (+-4.4%)
+  Superposition: 1.0000 → 0.9860 (+-1.4%)
+
+steane_code:
+  Bell: 0.9960 → 0.9980 (+0.2%)
+  GHZ: 0.9960 → 0.9960 (+0.0%)
+  Superposition: 0.9980 → 1.0000 (+0.2%)
+
+
+THRESHOLD DETERMINATION
+----------------------------------------
+Estimated Error Threshold: 0.0183
+Code Type: surface_code
+Distances Tested: [3, 5]
+
+================================================================================

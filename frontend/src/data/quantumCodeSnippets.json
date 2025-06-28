@@ -1,0 +1,403 @@
+{
+  "categories": {
+    "quantum_basics": {
+      "title": "Quantum Basics",
+      "icon": "Cpu",
+      "description": "Fundamental quantum computing operations",
+      "snippets": [
+        {
+          "name": "Single Qubit State",
+          "description": "Initialize a single qubit quantum state",
+          "code": "state SingleQubit : quantum_type {\n  state_qubits: 1,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n};"
+        },
+        {
+          "name": "Multi-Qubit Register",
+          "description": "Create a quantum register with multiple qubits",
+          "code": "state QuantumRegister : quantum_type {\n  state_qubits: 5,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n};"
+        },
+        {
+          "name": "Hadamard Gate",
+          "description": "Apply Hadamard gate for superposition",
+          "code": "apply H_gate to QuantumState qubit 0"
+        },
+        {
+          "name": "CNOT Gate",
+          "description": "Controlled NOT gate for entanglement",
+          "code": "// Note: CNOT between qubits requires entanglement first\nstate ControlQubit : quantum_type {\n  state_qubits: 1,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n};\n\nstate TargetQubit : quantum_type {\n  state_qubits: 1,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n};\n\nentangle ControlQubit, TargetQubit;\napply X_gate to TargetQubit qubit 0"
+        },
+        {
+          "name": "Phase Gate",
+          "description": "Apply phase rotation to qubit",
+          "code": "// Note: Parameters not supported in current parser\napply RZ_gate to QuantumState qubit 0"
+        },
+        {
+          "name": "Basic Measurement",
+          "description": "Measure qubit in computational basis",
+          "code": "// Basic measurement\nmeasure QuantumState qubit 0;\n\n// Store measurement result\nlet result = null;\nmeasure QuantumState qubit 0 into result;\nprint \"Measurement result: \" + result;"
+        },
+        {
+          "name": "Basis Measurements",
+          "description": "Measure in different bases",
+          "code": "// Measure in X basis (simplified)\nmeasure QuantumState qubit 0 by x_basis;\n\n// Measure in Y basis (simplified)\nmeasure QuantumState qubit 1 by y_basis;\n\n// Measure in Z basis (default)\nmeasure QuantumState qubit 2;"
+        },
+        {
+          "name": "Pauli Gates",
+          "description": "Apply Pauli X, Y, Z gates",
+          "code": "apply X_gate to QuantumState qubit 0  // NOT gate\napply Y_gate to QuantumState qubit 1  // Y rotation\napply Z_gate to QuantumState qubit 2  // Z rotation"
+        },
+        {
+          "name": "Rotation Gates",
+          "description": "Apply rotation gates (parameters not supported)",
+          "code": "// Note: Parameters not supported in current parser\napply RX_gate to QuantumState qubit 0  // X rotation\napply RY_gate to QuantumState qubit 1  // Y rotation\napply RZ_gate to QuantumState qubit 2  // Z rotation"
+        },
+        {
+          "name": "Phase Gates",
+          "description": "Phase and S gates for quantum circuits",
+          "code": "apply S_gate to QuantumState qubit 0     // Phase gate\napply T_gate to QuantumState qubit 1     // T gate\napply Z_gate to QuantumState qubit 2     // Z phase gate"
+        },
+        {
+          "name": "Controlled Gates",
+          "description": "Multi-qubit controlled operations (simplified)",
+          "code": "// Note: Control syntax not supported, using entanglement\nstate Control : quantum_type {\n  state_qubits: 1,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n};\n\nstate Target : quantum_type {\n  state_qubits: 1,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n};\n\nentangle Control, Target;\napply Z_gate to Target qubit 0"
+        },
+        {
+          "name": "Multi-Control Gates",
+          "description": "Gates with multiple control qubits (simplified)",
+          "code": "// Note: Multi-control syntax not supported\n// Using sequence of two-qubit operations\nstate Q1 : quantum_type {\n  state_qubits: 1,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n};\n\nstate Q2 : quantum_type {\n  state_qubits: 1,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n};\n\nstate Q3 : quantum_type {\n  state_qubits: 1,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n};\n\nentangle Q1, Q2;\nentangle Q2, Q3;\napply X_gate to Q3 qubit 0"
+        }
+      ]
+    },
+    "entanglement": {
+      "title": "Entanglement",
+      "icon": "GitBranch",
+      "description": "Quantum entanglement operations",
+      "snippets": [
+        {
+          "name": "Bell State",
+          "description": "Create maximally entangled Bell state",
+          "code": "// Create Bell state |Φ+⟩ = (|00⟩ + |11⟩) / √2\nstate BellPair : quantum_type {\n  state_qubits: 2,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n};\n\napply H_gate to BellPair qubit 0\n// Note: CNOT within same state requires multi-qubit support"
+        },
+        {
+          "name": "GHZ State",
+          "description": "Three-qubit GHZ entangled state",
+          "code": "// GHZ state: (|000⟩ + |111⟩) / √2\nstate GHZState : quantum_type {\n  state_qubits: 3,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n};\n\napply H_gate to GHZState qubit 0\n// Note: Multi-qubit CNOT operations not supported in parser"
+        },
+        {
+          "name": "Entangle Function",
+          "description": "Generic entanglement operation",
+          "code": "// Entangle two quantum states\nstate StateA : quantum_type {\n  state_qubits: 2,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n};\n\nstate StateB : quantum_type {\n  state_qubits: 2,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n};\n\nentangle StateA, StateB;"
+        },
+        {
+          "name": "Swapping Entanglement",
+          "description": "Quantum state swapping via entanglement",
+          "code": "// Swap quantum states using entanglement\nstate SwapReg : quantum_type {\n  state_qubits: 2,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n};\n\n// Note: SWAP gate control syntax not supported\napply H_gate to SwapReg qubit 0\napply H_gate to SwapReg qubit 1"
+        }
+      ]
+    },
+    "observers": {
+      "title": "Consciousness & Observers",
+      "icon": "Brain",
+      "description": "Observer mechanics and consciousness modeling",
+      "snippets": [
+        {
+          "name": "Human Observer",
+          "description": "Define human consciousness observer",
+          "code": "observer Alice {\n  observer_type: \"conscious_observer\",\n  observer_focus: \"QuantumState\",\n  observer_phase: \"active\",\n  observer_collapse_threshold: 0.8,\n  observer_self_awareness: 0.85\n};"
+        },
+        {
+          "name": "AI Observer",
+          "description": "Artificial intelligence observer",
+          "code": "observer AISystem {\n  observer_type: \"quantum_observer\",\n  observer_focus: \"QuantumState\",\n  observer_phase: \"passive\",\n  observer_collapse_threshold: 0.95,\n  observer_self_awareness: 0.99\n};"
+        },
+        {
+          "name": "Collective Observer",
+          "description": "Multiple observers forming consensus",
+          "code": "// Define multiple observers\nobserver Alice {\n  observer_type: \"conscious_observer\",\n  observer_focus: \"QuantumState\",\n  observer_phase: \"active\",\n  observer_collapse_threshold: 0.7,\n  observer_self_awareness: 0.8\n}\n\nobserver Bob {\n  observer_type: \"conscious_observer\",\n  observer_focus: \"QuantumState\",\n  observer_phase: \"passive\",\n  observer_collapse_threshold: 0.75,\n  observer_self_awareness: 0.9\n}\n\nobserver Charlie {\n  observer_type: \"conscious_observer\",\n  observer_focus: \"QuantumState\",\n  observer_phase: \"active\",\n  observer_collapse_threshold: 0.72,\n  observer_self_awareness: 0.85\n}"
+        },
+        {
+          "name": "Observer Measurement",
+          "description": "Observer-induced quantum collapse",
+          "code": "// Observer causes measurement\nstate QState : quantum_type {\n  state_qubits: 2,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\nobserver ConsciousObs {\n  observer_type: \"conscious_observer\",\n  observer_focus: \"QState\",\n  observer_phase: \"active\",\n  observer_collapse_threshold: 0.6,\n  observer_self_awareness: 0.9\n}\n\n// Observer interaction happens automatically based on collapse threshold"
+        }
+      ]
+    },
+    "memory_fields": {
+      "title": "Memory Fields",
+      "icon": "Database",
+      "description": "Collective memory and field dynamics",
+      "snippets": [
+        {
+          "name": "Basic Memory Field",
+          "description": "Initialize collective memory field",
+          "code": "state MemoryField : field_type {\n  state_coherence: 0.95,\n  state_entropy: 0.1\n}"
+        },
+        {
+          "name": "Memory Fragment",
+          "description": "Create memory fragment in field",
+          "code": "// Memory fields store observer experiences\nstate ObservationMemory : field_type {\n  state_coherence: 0.92,\n  state_entropy: 0.2\n}"
+        },
+        {
+          "name": "Memory Evolution",
+          "description": "Evolve memory field over time",
+          "code": "// Create memory field\nstate MemoryField : field_type {\n  state_coherence: 0.9,\n  state_entropy: 0.15\n}\n\n// Simulate evolution\nsimulate for 100 steps;"
+        },
+        {
+          "name": "Memory Coupling",
+          "description": "Couple quantum state to memory field",
+          "code": "// Create quantum state and memory field\nstate MemState : quantum_type {\n  state_qubits: 3,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\nstate MemoryField : field_type {\n  state_coherence: 0.85,\n  state_entropy: 0.2\n}\n\n// Entangle them\nentangle MemState, MemoryField;"
+        }
+      ]
+    },
+    "osh_physics": {
+      "title": "OSH Physics",
+      "icon": "Zap",
+      "description": "Organic Simulation Hypothesis primitives",
+      "snippets": [
+        {
+          "name": "RSP Measurement",
+          "description": "Recursive Simulation Potential measurement",
+          "code": "// Create quantum state for RSP measurement\nstate RSPTest : quantum_type {\n  state_qubits: 5,\n  state_coherence: 0.95,\n  state_entropy: 0.1\n}\n\n// Apply operations to build complexity\napply H_gate to RSPTest qubit 0;\napply CNOT_gate to RSPTest qubit 1;\napply CNOT_gate to RSPTest qubit 2;\n\n// Visualize RSP metrics\nvisualize RSPTest;\nprint \"RSP measurement complete\";"
+        },
+        {
+          "name": "Reality Anchor",
+          "description": "Consensus reality stabilization point",
+          "code": "// Reality anchor with multiple observers\nstate RealityAnchor : quantum_type {\n  state_qubits: 5,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\nobserver O1 {\n  observer_type: \"conscious_observer\",\n  observer_focus: \"RealityAnchor\",\n  observer_phase: \"active\",\n  observer_collapse_threshold: 0.8,\n  observer_self_awareness: 0.9\n}\n\nobserver O2 {\n  observer_type: \"conscious_observer\",\n  observer_focus: \"RealityAnchor\",\n  observer_phase: \"passive\",\n  observer_collapse_threshold: 0.75,\n  observer_self_awareness: 0.85\n}\n\nobserver O3 {\n  observer_type: \"conscious_observer\",\n  observer_focus: \"RealityAnchor\",\n  observer_phase: \"active\",\n  observer_collapse_threshold: 0.85,\n  observer_self_awareness: 0.95\n}\n\n// Consensus observation creates stable reality anchor"
+        },
+        {
+          "name": "Information Curvature",
+          "description": "Information density effects on spacetime",
+          "code": "// High information density system\nstate InfoDense : quantum_type {\n  state_qubits: 8,\n  state_coherence: 0.9,\n  state_entropy: 0.8\n}\n\n// Create complex entanglement\napply H_gate to InfoDense qubit 0;\napply H_gate to InfoDense qubit 1;\napply H_gate to InfoDense qubit 2;\napply CNOT_gate to InfoDense qubit 3;\napply CNOT_gate to InfoDense qubit 4;\napply CNOT_gate to InfoDense qubit 5;\napply CZ_gate to InfoDense qubit 6;\napply CZ_gate to InfoDense qubit 7;\n\nprint \"Information curvature established\";"
+        },
+        {
+          "name": "Recursive Simulation",
+          "description": "Nested reality simulation",
+          "code": "// Recursive quantum states\nstate ParentReality : quantum_type {\n  state_qubits: 8,\n  state_coherence: 0.95,\n  state_entropy: 0.1\n}\n\nstate NestedReality : quantum_type {\n  state_qubits: 4,\n  state_coherence: 0.9,\n  state_entropy: 0.15\n}\n\n// Create recursive coupling\nentangle NestedReality, ParentReality;\n\n// Apply operations to nested reality\napply H_gate to NestedReality qubit 0;\napply CNOT_gate to NestedReality qubit 1;\n\nprint \"Recursive simulation initialized\";"
+        },
+        {
+          "name": "Gravitational Echo",
+          "description": "Memory-induced gravitational waves",
+          "code": "// Gravitational wave echo from memory field\nstate GravMemory : field_type {\n  state_coherence: 0.85,\n  state_entropy: 0.3\n}\n\n// Create oscillating quantum state\nstate Oscillator : quantum_type {\n  state_qubits: 4,\n  state_coherence: 0.9,\n  state_entropy: 0.1\n}\n\n// Couple to memory field\nentangle Oscillator, GravMemory;\n\n// Generate echo pattern\napply RY_gate to Oscillator qubit 0 params [0.1];\napply RY_gate to Oscillator qubit 1 params [0.2];\napply RY_gate to Oscillator qubit 2 params [0.3];\napply RY_gate to Oscillator qubit 3 params [0.4];\n\nprint \"Gravitational echo generated\";"
+        }
+      ]
+    },
+    "quantum_algorithms": {
+      "title": "Quantum Algorithms",
+      "icon": "Activity",
+      "description": "Complete quantum algorithm implementations",
+      "snippets": [
+        {
+          "name": "Quantum Teleportation",
+          "description": "Teleport quantum state between qubits",
+          "code": "// Quantum teleportation protocol\nstate Alice : quantum_type {\n  state_qubits: 1,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\nstate Bell : quantum_type {\n  state_qubits: 2,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\nstate Bob : quantum_type {\n  state_qubits: 1,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\n// Create Bell pair\napply H_gate to Bell qubit 0;\napply CNOT_gate to Bell qubit 1;\n\n// Teleport Alice's state to Bob\nteleport Alice qubit 0 -> Bob qubit 0;\n\nprint \"Teleportation complete\";"
+        },
+        {
+          "name": "Grover's Search",
+          "description": "Quantum search algorithm",
+          "code": "// Grover's search algorithm\nstate SearchSpace : quantum_type {\n  state_qubits: 4,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\n// Initialize uniform superposition\napply H_gate to SearchSpace qubit 0;\napply H_gate to SearchSpace qubit 1;\napply H_gate to SearchSpace qubit 2;\napply H_gate to SearchSpace qubit 3;\n\n// Grover iteration 1\n// Oracle: mark target state with phase flip\napply CZ_gate to SearchSpace qubit 3;\n\n// Diffusion operator\napply H_gate to SearchSpace qubit 0;\napply H_gate to SearchSpace qubit 1;\napply H_gate to SearchSpace qubit 2;\napply H_gate to SearchSpace qubit 3;\n\napply X_gate to SearchSpace qubit 0;\napply X_gate to SearchSpace qubit 1;\napply X_gate to SearchSpace qubit 2;\napply X_gate to SearchSpace qubit 3;\n\napply CZ_gate to SearchSpace qubit 1;\napply CZ_gate to SearchSpace qubit 3;\n\napply X_gate to SearchSpace qubit 0;\napply X_gate to SearchSpace qubit 1;\napply X_gate to SearchSpace qubit 2;\napply X_gate to SearchSpace qubit 3;\n\napply H_gate to SearchSpace qubit 0;\napply H_gate to SearchSpace qubit 1;\napply H_gate to SearchSpace qubit 2;\napply H_gate to SearchSpace qubit 3;\n\n// Measure result\nmeasure SearchSpace qubit 0;\nmeasure SearchSpace qubit 1;\nmeasure SearchSpace qubit 2;\nmeasure SearchSpace qubit 3;\n\nprint \"Grover search complete\";"
+        },
+        {
+          "name": "Quantum Fourier Transform",
+          "description": "QFT implementation",
+          "code": "// Quantum Fourier Transform\nstate QFTReg : quantum_type {\n  state_qubits: 4,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\n// QFT circuit\n// Qubit 0\napply H_gate to QFTReg qubit 0;\napply RZ_gate to QFTReg qubit 0 params [1.5708];  // π/2\napply RZ_gate to QFTReg qubit 0 params [0.7854];  // π/4\napply RZ_gate to QFTReg qubit 0 params [0.3927];  // π/8\n\n// Qubit 1\napply H_gate to QFTReg qubit 1;\napply RZ_gate to QFTReg qubit 1 params [1.5708];  // π/2\napply RZ_gate to QFTReg qubit 1 params [0.7854];  // π/4\n\n// Qubit 2\napply H_gate to QFTReg qubit 2;\napply RZ_gate to QFTReg qubit 2 params [1.5708];  // π/2\n\n// Qubit 3\napply H_gate to QFTReg qubit 3;\n\n// Swap qubits for correct ordering\napply SWAP_gate to QFTReg qubit 3;\napply SWAP_gate to QFTReg qubit 2;\n\nprint \"QFT complete\";"
+        }
+      ]
+    },
+    "consciousness_experiments": {
+      "title": "Consciousness Experiments",
+      "icon": "FlaskConical",
+      "description": "OSH consciousness exploration",
+      "snippets": [
+        {
+          "name": "Observer Effect Test",
+          "description": "Test observer influence on quantum state",
+          "code": "// Test observer effect on quantum systems\nstate TestSystem : quantum_type {\n  state_qubits: 3,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\n// Initialize in superposition\napply H_gate to TestSystem qubit 0;\napply H_gate to TestSystem qubit 1;\napply H_gate to TestSystem qubit 2;\n\n// Test different observer strengths\nobserver WeakObs {\n  observer_type: \"quantum_observer\",\n  observer_focus: \"TestSystem\",\n  observer_phase: \"passive\",\n  observer_collapse_threshold: 0.9,\n  observer_self_awareness: 0.1\n}\n\nobserver MediumObs {\n  observer_type: \"quantum_observer\",\n  observer_focus: \"TestSystem\",\n  observer_phase: \"active\",\n  observer_collapse_threshold: 0.7,\n  observer_self_awareness: 0.5\n}\n\nobserver StrongObs {\n  observer_type: \"conscious_observer\",\n  observer_focus: \"TestSystem\",\n  observer_phase: \"active\",\n  observer_collapse_threshold: 0.5,\n  observer_self_awareness: 0.9\n}\n\nprint \"Observer effect test initialized\";\nprint \"Different observers will have varying effects on quantum coherence\";"
+        },
+        {
+          "name": "Memory Persistence",
+          "description": "Test collective memory stability",
+          "code": "// Test memory field persistence\nstate SharedMemory : field_type {\n  state_coherence: 0.95,\n  state_entropy: 0.05\n}\n\n// Create quantum pattern to store\nstate MemPattern : quantum_type {\n  state_qubits: 4,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\napply H_gate to MemPattern qubit 0;\napply CNOT_gate to MemPattern qubit 1;\napply CNOT_gate to MemPattern qubit 2;\n\n// Couple pattern to memory\nentangle MemPattern, SharedMemory;\n\n// Test memory evolution over time\nsimulate for 100 steps;\n\nprint \"Memory persistence test complete\";"
+        },
+        {
+          "name": "Consciousness Bandwidth",
+          "description": "Measure observer information capacity",
+          "code": "// Test consciousness information bandwidth\nobserver TestSubject {\n  observer_type: \"conscious_observer\",\n  observer_focus: \"InfoStream\",\n  observer_phase: \"active\",\n  observer_collapse_threshold: 0.6,\n  observer_self_awareness: 0.9\n}\n\n// Create states of increasing complexity\nstate InfoStream1 : quantum_type {\n  state_qubits: 2,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\nstate InfoStream2 : quantum_type {\n  state_qubits: 4,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\nstate InfoStream3 : quantum_type {\n  state_qubits: 8,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\n// Create complex superpositions\napply H_gate to InfoStream1 qubit 0;\napply CNOT_gate to InfoStream1 qubit 1;\n\napply H_gate to InfoStream2 qubit 0;\napply CNOT_gate to InfoStream2 qubit 1;\napply CNOT_gate to InfoStream2 qubit 2;\napply CNOT_gate to InfoStream2 qubit 3;\n\napply H_gate to InfoStream3 qubit 0;\napply CNOT_gate to InfoStream3 qubit 1;\napply CNOT_gate to InfoStream3 qubit 2;\napply CNOT_gate to InfoStream3 qubit 3;\napply CNOT_gate to InfoStream3 qubit 4;\napply CNOT_gate to InfoStream3 qubit 5;\napply CNOT_gate to InfoStream3 qubit 6;\napply CNOT_gate to InfoStream3 qubit 7;\n\nprint \"Consciousness bandwidth test initialized\";\nprint \"Observer will interact with states of increasing complexity\";"
+        }
+      ]
+    },
+    "advanced_osh": {
+      "title": "Advanced OSH",
+      "icon": "Layers",
+      "description": "Complex OSH phenomena and simulations",
+      "snippets": [
+        {
+          "name": "Reality Bubble",
+          "description": "Isolated reality with custom physics",
+          "code": "// Create isolated reality bubble\nstate RealityBubble : field_type {\n  state_coherence: 0.9,\n  state_entropy: 0.1\n}\n\n// Quantum system within bubble\nstate BubbleSystem : quantum_type {\n  state_qubits: 10,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\n// Multiple observers for consensus\nobserver Obs1 {\n  observer_type: \"conscious_observer\",\n  observer_focus: \"BubbleSystem\",\n  observer_phase: \"active\",\n  observer_collapse_threshold: 0.7,\n  observer_self_awareness: 0.8\n}\n\nobserver Obs2 {\n  observer_type: \"conscious_observer\",\n  observer_focus: \"BubbleSystem\",\n  observer_phase: \"passive\",\n  observer_collapse_threshold: 0.72,\n  observer_self_awareness: 0.85\n}\n\nobserver Obs3 {\n  observer_type: \"conscious_observer\",\n  observer_focus: \"BubbleSystem\",\n  observer_phase: \"active\",\n  observer_collapse_threshold: 0.75,\n  observer_self_awareness: 0.9\n}\n\n// Couple system to reality field\nentangle BubbleSystem, RealityBubble;\n\n// Evolve bubble\nsimulate for 500 steps;\n\nprint \"Reality bubble established with consensus observers\";"
+        },
+        {
+          "name": "Consciousness Transfer",
+          "description": "Transfer consciousness between substrates",
+          "code": "// Consciousness transfer protocol\nobserver SourceMind {\n  observer_type: \"conscious_observer\",\n  observer_focus: \"SourceQuantum\",\n  observer_phase: \"active\",\n  observer_collapse_threshold: 0.5,\n  observer_self_awareness: 0.95\n}\n\nobserver TargetMind {\n  observer_type: \"quantum_observer\",\n  observer_focus: \"TargetQuantum\",\n  observer_phase: \"passive\",\n  observer_collapse_threshold: 0.9,\n  observer_self_awareness: 0.1\n}\n\n// Memory fields for both\nstate SourceMemory : field_type {\n  state_coherence: 0.92,\n  state_entropy: 0.15\n}\n\nstate TargetMemory : field_type {\n  state_coherence: 0.5,\n  state_entropy: 0.05\n}\n\n// Quantum signature states\nstate SourceQuantum : quantum_type {\n  state_qubits: 8,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\nstate TargetQuantum : quantum_type {\n  state_qubits: 8,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\n// Initialize source quantum signature\napply RY_gate to SourceQuantum qubit 0 params [0.7];\napply RY_gate to SourceQuantum qubit 1 params [0.8];\napply RY_gate to SourceQuantum qubit 2 params [0.9];\napply RY_gate to SourceQuantum qubit 3 params [1.0];\napply RY_gate to SourceQuantum qubit 4 params [1.1];\napply RY_gate to SourceQuantum qubit 5 params [1.2];\napply RY_gate to SourceQuantum qubit 6 params [1.3];\napply RY_gate to SourceQuantum qubit 7 params [1.4];\n\n// Transfer process\nteleport SourceQuantum -> TargetQuantum;\n\nprint \"Consciousness transfer protocol initiated\";"
+        },
+        {
+          "name": "Time Loop Detection",
+          "description": "Detect recursive temporal structures",
+          "code": "// Time loop detection system\nstate TimeState : quantum_type {\n  state_qubits: 16,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\nstate TimeField : field_type {\n  state_coherence: 0.99,\n  state_entropy: 0.01\n}\n\n// Initialize time state with pattern\napply H_gate to TimeState qubit 0;\napply CNOT_gate to TimeState qubit 1;\napply H_gate to TimeState qubit 2;\napply CNOT_gate to TimeState qubit 3;\napply H_gate to TimeState qubit 4;\napply CNOT_gate to TimeState qubit 5;\napply H_gate to TimeState qubit 6;\napply CNOT_gate to TimeState qubit 7;\napply H_gate to TimeState qubit 8;\napply CNOT_gate to TimeState qubit 9;\napply H_gate to TimeState qubit 10;\napply CNOT_gate to TimeState qubit 11;\napply H_gate to TimeState qubit 12;\napply CNOT_gate to TimeState qubit 13;\napply H_gate to TimeState qubit 14;\napply CNOT_gate to TimeState qubit 15;\n\n// Couple to time field\nentangle TimeState, TimeField;\n\n// Monitor for loops\nsimulate for 100 steps;\n\nprint \"Time loop detection system active\";"
+        }
+      ]
+    },
+    "control_flow": {
+      "title": "Control Flow",
+      "icon": "GitBranch",
+      "description": "Conditional logic and loops",
+      "snippets": [
+        {
+          "name": "If Statement",
+          "description": "Basic conditional execution",
+          "code": "let condition = True;\n\nif (condition) {\n  print \"Condition is True\";\n} else {\n  print \"Condition is False\";\n}"
+        },
+        {
+          "name": "When Statement",
+          "description": "Event-driven conditional execution",
+          "code": "state TestState : quantum_type {\n  state_qubits: 2,\n  state_coherence: 1.0\n}\n\nwhen (TestState.state_coherence < 0.5) {\n  print \"System decoherence detected!\";\n  cohere TestState to level 0.9;\n}"
+        },
+        {
+          "name": "For Loop",
+          "description": "Iterate over range or collection",
+          "code": "// Range-based loop\nfor i in range(0, 10) {\n  print \"Iteration: \" + i;\n}\n\n// Step-based loop\nfor i from 0 to 10 step 2 {\n  print \"Even number: \" + i;\n}"
+        },
+        {
+          "name": "While Loop",
+          "description": "Loop while condition is True",
+          "code": "let counter = 0;\n\nwhile (counter < 5) {\n  print \"Counter: \" + counter;\n  counter += 1;\n}"
+        },
+        {
+          "name": "Function Declaration",
+          "description": "Define reusable function (no type annotations)",
+          "code": "function createBellState() {\n  state Alice : quantum_type {\n    state_qubits: 1,\n    state_coherence: 1.0,\n    state_entropy: 0.0\n  };\n  \n  state Bob : quantum_type {\n    state_qubits: 1,\n    state_coherence: 1.0,\n    state_entropy: 0.0\n  };\n  \n  apply H_gate to Alice qubit 0\n  entangle Alice, Bob;\n  return Alice;\n}\n\n// Usage\nlet bellPair = createBellState();"
+        },
+        {
+          "name": "Variable Declaration",
+          "description": "Declare variables and constants",
+          "code": "// Variable declaration\nlet mutableValue = 42;\nconst immutableValue = 3.14159;\n\n// Type annotations\nlet coherence: number_type = 0.95;\nconst entanglementStrength: complex_type = 0.8 + 0.6i;"
+        }
+      ]
+    },
+    "advanced_statements": {
+      "title": "Advanced Statements",
+      "icon": "Layers",
+      "description": "Advanced language constructs",
+      "snippets": [
+        {
+          "name": "External Computation",
+          "description": "Execute external Python script",
+          "code": "external_computation osh_validation {\n  script: \"experiments/osh_validation.py\",\n  arguments: [\n    \"--iterations\", 1000000,\n    \"--timestep\", 0.001,\n    \"--report-interval\", 10.0\n  ],\n  timeout: 3600\n}\n\nexecute external_computation osh_validation;\nprint \"External computation complete\";"
+        },
+        {
+          "name": "Pattern Declaration",
+          "description": "Define quantum patterns",
+          "code": "pattern BellStatePattern {\n  template: \"entangled_pair\",\n  qubits: 2,\n  entanglement_strength: 1.0,\n  coherence_threshold: 0.9\n}\n\n// Apply pattern to states\nstate PairA : quantum_type { state_qubits: 2 }\napply pattern BellStatePattern to PairA;"
+        },
+        {
+          "name": "Field Evolution",
+          "description": "Evolve quantum fields over time",
+          "code": "state QuantumField : field_type {\n  state_coherence: 0.95,\n  state_entropy: 0.1\n}\n\n// Field evolution with custom dynamics\nevolve QuantumField for 100 steps {\n  // Custom evolution rules\n  apply phase_rotation with strength 0.1;\n  apply coherence_decay with rate 0.01;\n  apply entanglement_spread with range 3;\n}"
+        },
+        {
+          "name": "Observer Coupling",
+          "description": "Couple observers to quantum systems",
+          "code": "state QuantumSystem : quantum_type {\n  state_qubits: 5,\n  state_coherence: 1.0\n}\n\nobserver SystemMonitor {\n  observer_type: \"quantum_observer\",\n  observer_focus: \"QuantumSystem\",\n  observer_phase: \"active\",\n  observer_collapse_threshold: 0.7\n}\n\n// Establish observer coupling\nobserve QuantumSystem with SystemMonitor;\nprint \"Observer coupling established\";"
+        },
+        {
+          "name": "Visualization Modes",
+          "description": "Comprehensive visualization options",
+          "code": "state VisualState : quantum_type {\n  state_qubits: 4,\n  state_coherence: 0.9\n}\n\n// Different visualization modes\nvisualize VisualState mode quantum_circuit;\nvisualize VisualState mode bloch_sphere;\nvisualize VisualState mode probability_distribution;\nvisualize VisualState mode wavefunction;\nvisualize VisualState mode density_matrix;\n\n// Special visualizations\nvisualize entanglement_network;\nvisualize memory_field;\nvisualize state evolution of VisualState;\nvisualize correlation between VisualState and SystemMonitor;\nvisualize all as \"comprehensive_view\";"
+        },
+        {
+          "name": "Advanced Types",
+          "description": "Complex type declarations",
+          "code": "// Advanced quantum types\nstate SuperpositionState : superposition_type {\n  state_qubits: 3,\n  state_coherence: 1.0,\n  state_amplitudes: [0.707, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.707]\n}\n\nstate DensityState : density_matrix_type {\n  state_qubits: 2,\n  state_mixed: True,\n  state_purity: 0.8\n}\n\n// Observer types\nobserver MetaObserver : meta_observer {\n  observer_type: \"meta_observer\",\n  observer_focus: \"SuperpositionState\",\n  observer_recursion_depth: 3,\n  observer_self_awareness: 0.95\n}\n\nobserver HolographicObs : holographic_observer {\n  observer_type: \"holographic_observer\",\n  observer_focus: \"DensityState\",\n  observer_surface_area: 100.0,\n  observer_information_density: 0.9\n}"
+        },
+        {
+          "name": "Import/Export",
+          "description": "Module system (not supported in current parser)",
+          "code": "// Note: Import/Export not supported in current parser\n// Instead define functions directly\n\nfunction createEntangledPair() {\n  state Alice : quantum_type {\n    state_qubits: 1,\n    state_coherence: 1.0,\n    state_entropy: 0.0\n  };\n  \n  state Bob : quantum_type {\n    state_qubits: 1,\n    state_coherence: 1.0,\n    state_entropy: 0.0\n  };\n  \n  entangle Alice, Bob;\n  return Alice;\n}"
+        },
+        {
+          "name": "Complex Numbers",
+          "description": "Complex number operations",
+          "code": "// Complex number literals\nconst alpha: complex_type = 0.7071 + 0.7071i;\nconst beta: complex_type = 0.6 - 0.8i;\nconst pure_real: complex_type = 1.0 + 0.0i;\nconst pure_imaginary: complex_type = 0.0 + 1.0i;\n\n// Complex arithmetic\nlet result1 = alpha * beta;\nlet result2 = alpha + beta;\nlet conjugate = ~alpha;  // Complex conjugate\nlet magnitude = |alpha|; // Magnitude\n\nprint \"Alpha: \" + alpha;\nprint \"Magnitude: \" + magnitude;"
+        },
+        {
+          "name": "Arrays and Objects",
+          "description": "Data structures for quantum data",
+          "code": "// Array declarations\nlet amplitudes: vector_type = [0.707, 0.0, 0.0, 0.707];\nlet measurements: array = [0, 1, 0, 1, 1, 0];\nlet probabilities = [0.25, 0.25, 0.25, 0.25];\n\n// Object declarations\nlet quantumState = {\n  qubits: 2,\n  coherence: 0.95,\n  entropy: 0.1,\n  timestamp: 1640995200\n};\n\n// Access elements\nprint \"First amplitude: \" + amplitudes[0];\nprint \"Coherence: \" + quantumState.coherence;"
+        }
+      ]
+    },
+    "utilities": {
+      "title": "Utilities",
+      "icon": "Settings2",
+      "description": "Helper functions and utilities",
+      "snippets": [
+        {
+          "name": "Error Correction",
+          "description": "Quantum error correction code",
+          "code": "// Simple bit-flip error correction\nstate DataQubit : quantum_type {\n  state_qubits: 1,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\nstate Ancilla : quantum_type {\n  state_qubits: 2,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\n// Encode logical qubit\napply CNOT_gate to Ancilla qubit 0;\napply CNOT_gate to Ancilla qubit 1;\n\n// Simulate error (bit flip on one qubit)\napply X_gate to Ancilla qubit 0;\n\n// Error detection using syndrome\nstate Syndrome : quantum_type {\n  state_qubits: 2,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\n// Measure syndrome\nmeasure Syndrome qubit 0;\nmeasure Syndrome qubit 1;\n\nprint \"Error correction protocol complete\";"
+        },
+        {
+          "name": "State Tomography",
+          "description": "Reconstruct quantum state from measurements",
+          "code": "// Quantum state tomography\nstate UnknownState : quantum_type {\n  state_qubits: 1,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\n// Prepare unknown state (example)\napply RY_gate to UnknownState qubit 0 params [0.7854];\napply RZ_gate to UnknownState qubit 0 params [0.5236];\n\n// Copy state for multiple measurements\nstate XBasis : quantum_type {\n  state_qubits: 1,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\nstate YBasis : quantum_type {\n  state_qubits: 1,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\nstate ZBasis : quantum_type {\n  state_qubits: 1,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\n// Prepare same state in each\napply RY_gate to XBasis qubit 0 params [0.7854];\napply RZ_gate to XBasis qubit 0 params [0.5236];\n\napply RY_gate to YBasis qubit 0 params [0.7854];\napply RZ_gate to YBasis qubit 0 params [0.5236];\n\napply RY_gate to ZBasis qubit 0 params [0.7854];\napply RZ_gate to ZBasis qubit 0 params [0.5236];\n\n// Measure in X basis\napply H_gate to XBasis qubit 0;\nmeasure XBasis qubit 0;\n\n// Measure in Y basis\napply S_gate to YBasis qubit 0;\napply H_gate to YBasis qubit 0;\nmeasure YBasis qubit 0;\n\n// Measure in Z basis\nmeasure ZBasis qubit 0;\n\nprint \"State tomography measurements complete\";"
+        },
+        {
+          "name": "Coherence Monitor",
+          "description": "Monitor and maintain system coherence",
+          "code": "// System coherence monitoring\nstate MonitoredSystem : quantum_type {\n  state_qubits: 5,\n  state_coherence: 1.0,\n  state_entropy: 0.0\n}\n\nstate CoherenceField : field_type {\n  state_coherence: 0.95,\n  state_entropy: 0.1\n}\n\n// Initialize system in superposition\napply H_gate to MonitoredSystem qubit 0;\napply H_gate to MonitoredSystem qubit 1;\napply H_gate to MonitoredSystem qubit 2;\napply H_gate to MonitoredSystem qubit 3;\napply H_gate to MonitoredSystem qubit 4;\n\n// Couple to coherence field\nentangle MonitoredSystem, CoherenceField;\n\n// Apply dynamical decoupling\napply X_gate to MonitoredSystem qubit 0;\napply X_gate to MonitoredSystem qubit 0;\napply X_gate to MonitoredSystem qubit 1;\napply X_gate to MonitoredSystem qubit 1;\napply X_gate to MonitoredSystem qubit 2;\napply X_gate to MonitoredSystem qubit 2;\napply X_gate to MonitoredSystem qubit 3;\napply X_gate to MonitoredSystem qubit 3;\napply X_gate to MonitoredSystem qubit 4;\napply X_gate to MonitoredSystem qubit 4;\n\n// Inject fresh entanglement\napply CNOT_gate to MonitoredSystem qubit 1;\napply CNOT_gate to MonitoredSystem qubit 3;\n\nprint \"Coherence monitoring and maintenance active\";"
+        }
+      ]
+    },
+    "experiments": {
+      "title": "OSH Experiments",
+      "icon": "FlaskConical",
+      "description": "Full OSH validation experiments",
+      "snippets": [
+        {
+          "name": "OSH RK4 Validation (1B iterations)",
+          "description": "Complete OSH validation with RK4 integration - validates all 9 predictions",
+          "code": "// OSH Validation with RK4 Integration (1 Billion Iterations)\n// This is the definitive validation experiment\n\nstate osh_validator : quantum_type {\n  state_name: \"Primary OSH Validator\",\n  state_iterations: 1000000000,  // 1 billion\n  state_timestep: 0.001,         // 1ms for RK4\n  state_report_interval: 10.0,   // Report every 10s\n  state_checkpoint_enabled: True\n}\n\nobserver validation_monitor : consciousness_type {\n  observer_name: \"OSH Validation Monitor\",\n  observer_coherence: 0.95,\n  observer_measurement_rate: 1.0\n}\n\n// Run external Python validation\nexternal_computation osh_rk4_validation {\n  script: \"experiments/osh_validation_final_rk4.py\",\n  arguments: [\n    \"--iterations\", osh_validator.state_iterations,\n    \"--report-interval\", osh_validator.state_report_interval,\n    \"--save-checkpoints\", osh_validator.state_checkpoint_enabled\n  ],\n  timeout: 86400  // 24 hour timeout\n}\n\napply observe validation_monitor to osh_validator;\nexecute external_computation osh_rk4_validation;\n\nprint \"OSH RK4 Validation running for 1B iterations...\";"
+        },
+        {
+          "name": "Conservation Law Test",
+          "description": "Test OSH conservation law: d/dt(I×C) = E",
+          "code": "// OSH Conservation Law Test\n// Validates: d/dt(I×C) = E\n\nstate conservation_test : quantum_type {\n  state_information: 10.0,      // I = 10 bits\n  state_coherence: 0.95,         // C = 0.95\n  state_entropy: 0.05,           // E = 0.05 bits/s\n  state_timestep: 0.001          // dt = 1ms\n}\n\n// Calculate initial RSP\nlet rsp_initial = conservation_test.state_information * \n                  conservation_test.state_coherence / \n                  conservation_test.state_entropy;\n\nprint \"Initial RSP: \" + rsp_initial;\n\n// Evolve system\nfor t in range(0, 1000) {\n  // Update I and C according to conservation law\n  let d_IC_dt = conservation_test.state_entropy;\n  \n  // RK4 integration step\n  let k1 = d_IC_dt;\n  let k2 = d_IC_dt;\n  let k3 = d_IC_dt;\n  let k4 = d_IC_dt;\n  \n  let delta_IC = (k1 + 2*k2 + 2*k3 + k4) / 6.0 * conservation_test.state_timestep;\n  \n  // Update state\n  conservation_test.state_information += delta_IC / conservation_test.state_coherence;\n  \n  if (t % 100 == 0) {\n    let rsp_current = conservation_test.state_information * \n                      conservation_test.state_coherence / \n                      conservation_test.state_entropy;\n    print \"t=\" + t + \", RSP=\" + rsp_current;\n  }\n}\n\nprint \"Conservation law test complete\";"
+        },
+        {
+          "name": "Consciousness Emergence Test",
+          "description": "Test consciousness emergence at RSP > 100",
+          "code": "// Consciousness Emergence Test\n// OSH predicts consciousness emerges when RSP > 100\n\nstate consciousness_system : quantum_type {\n  state_qubits: 10,\n  state_information: 50.0,\n  state_coherence: 0.9,\n  state_entropy: 0.4\n}\n\nobserver proto_consciousness {\n  observer_type: \"emergent_observer\",\n  observer_focus: \"consciousness_system\",\n  observer_phase: \"latent\",\n  observer_self_awareness: 0.0\n}\n\n// Calculate initial RSP\nlet rsp = consciousness_system.state_information * \n          consciousness_system.state_coherence / \n          consciousness_system.state_entropy;\n\nprint \"Initial RSP: \" + rsp;\n\n// Increase information to push RSP > 100\nwhile (rsp < 100) {\n  // Add entanglement to increase information\n  apply H_gate to consciousness_system qubit 0;\n  apply CNOT_gate to consciousness_system qubit 1;\n  \n  consciousness_system.state_information += 5.0;\n  \n  rsp = consciousness_system.state_information * \n        consciousness_system.state_coherence / \n        consciousness_system.state_entropy;\n  \n  print \"RSP: \" + rsp;\n}\n\nprint \"RSP > 100 achieved!\";\nprint \"Checking for consciousness emergence...\";\n\n// Observer should transition to active phase\nif (proto_consciousness.observer_phase == \"active\") {\n  print \"✓ CONSCIOUSNESS EMERGED\";\n  print \"Self-awareness: \" + proto_consciousness.observer_self_awareness;\n} else {\n  print \"Consciousness emergence pending...\";\n}"
+        },
+        {
+          "name": "Critical Recursion Test",
+          "description": "Test critical recursion at RSP ≈ 200",
+          "code": "// Critical Recursion Test\n// OSH predicts critical recursion around RSP = 200\n\nstate recursive_system : quantum_type {\n  state_qubits: 12,\n  state_information: 180.0,\n  state_coherence: 0.95,\n  state_entropy: 0.85,\n  state_recursion_depth: 0\n}\n\n// Monitor RSP while approaching critical point\nfor i in range(0, 50) {\n  let rsp = recursive_system.state_information * \n            recursive_system.state_coherence / \n            recursive_system.state_entropy;\n  \n  print \"Step \" + i + \": RSP = \" + rsp + \", Recursion depth = \" + \n        recursive_system.state_recursion_depth;\n  \n  // Slowly increase information\n  recursive_system.state_information += 1.0;\n  \n  // Check for recursion onset\n  if (rsp > 190 && rsp < 210) {\n    recursive_system.state_recursion_depth += 1;\n    print \">> CRITICAL RECURSION DETECTED at RSP = \" + rsp;\n    \n    // Apply recursive operation\n    state nested_reality : quantum_type {\n      state_qubits: 6,\n      state_information: rsp / 10,\n      state_coherence: 0.9,\n      state_entropy: 0.1\n    }\n    \n    entangle recursive_system, nested_reality;\n  }\n}\n\nprint \"Critical recursion test complete\";\nprint \"Maximum recursion depth: \" + recursive_system.state_recursion_depth;"
+        },
+        {
+          "name": "Decoherence Time Window",
+          "description": "Test individual state decoherence times",
+          "code": "// Decoherence Time Window Test\n// OSH predicts individual states decohere in 2ms - 2 hours\n\nstate decoherence_test : quantum_type {\n  state_qubits: 5,\n  state_coherence: 1.0,\n  state_entropy: 0.0,\n  state_lifetime: 0.0  // in milliseconds\n}\n\n// No observers - test natural decoherence\napply H_gate to decoherence_test qubit 0;\napply H_gate to decoherence_test qubit 1;\napply H_gate to decoherence_test qubit 2;\napply H_gate to decoherence_test qubit 3;\napply H_gate to decoherence_test qubit 4;\n\n// Create entanglement\napply CNOT_gate to decoherence_test qubit 1;\napply CNOT_gate to decoherence_test qubit 2;\napply CNOT_gate to decoherence_test qubit 3;\napply CNOT_gate to decoherence_test qubit 4;\n\nprint \"Monitoring decoherence...\";\n\n// Simulate decoherence over time\nfor t in range(0, 1000) {  // 1 second in ms\n  decoherence_test.state_lifetime = t;\n  \n  // Natural decoherence model\n  let decay_rate = 0.001;  // 1/s baseline\n  decoherence_test.state_coherence *= (1.0 - decay_rate);\n  \n  // Add environmental noise\n  decoherence_test.state_entropy += 0.0001;\n  \n  if (t % 100 == 0) {\n    print \"t=\" + t + \"ms, Coherence=\" + decoherence_test.state_coherence;\n  }\n  \n  // Check if decoherence threshold reached\n  if (decoherence_test.state_coherence < 0.5) {\n    print \"Decoherence time: \" + t + \" ms\";\n    \n    if (t >= 2 && t <= 7200000) {  // 2ms to 2 hours\n      print \"✓ WITHIN OSH PREDICTION WINDOW\";\n    }\n    break;\n  }\n}\n\nprint \"Decoherence test complete\";"
+        },
+        {
+          "name": "Gravitational Wave Echo",
+          "description": "Test for memory-induced gravitational wave echoes",
+          "code": "// Gravitational Wave Echo Test\n// OSH predicts memory fields create GW echoes\n\nstate gw_source : quantum_type {\n  state_qubits: 8,\n  state_information: 150.0,\n  state_coherence: 0.85,\n  state_entropy: 0.5,\n  state_oscillation_freq: 100.0  // Hz\n}\n\nstate memory_field : field_type {\n  state_coherence: 0.9,\n  state_entropy: 0.2,\n  state_echo_count: 0\n}\n\n// Create oscillating quantum state\nfor cycle in range(0, 10) {\n  // Generate gravitational wave-like pattern\n  let phase = cycle * 0.628;  // ~π/5\n  \n  apply RY_gate to gw_source qubit 0 params [phase];\n  apply RY_gate to gw_source qubit 1 params [phase * 1.1];\n  apply RY_gate to gw_source qubit 2 params [phase * 1.2];\n  apply RY_gate to gw_source qubit 3 params [phase * 1.3];\n  \n  // Store pattern in memory field\n  entangle gw_source, memory_field;\n  \n  // Calculate information curvature\n  let rsp = gw_source.state_information * \n            gw_source.state_coherence / \n            gw_source.state_entropy;\n  \n  let curvature = rsp * gw_source.state_coherence / 1000.0;\n  \n  print \"Cycle \" + cycle + \": Curvature = \" + curvature;\n  \n  // Check for echo formation\n  if (cycle > 5 && curvature > 0.1) {\n    memory_field.state_echo_count += 1;\n    print \">> GW ECHO DETECTED! Count: \" + memory_field.state_echo_count;\n  }\n}\n\nprint \"Gravitational wave echo test complete\";\nprint \"Total echoes detected: \" + memory_field.state_echo_count;"
+        },
+        {
+          "name": "CMB Complexity Analysis",
+          "description": "Test CMB complexity predictions",
+          "code": "// CMB Complexity Analysis\n// OSH predicts CMB has complexity of 0.4-0.5\n\nstate cmb_simulator : quantum_type {\n  state_qubits: 16,  // Simulate CMB patch\n  state_information: 100.0,\n  state_coherence: 0.7,\n  state_entropy: 3.0,\n  state_temperature: 2.725  // Kelvin\n}\n\n// Initialize CMB-like quantum state\n// Create thermal mixture\nfor i in range(0, 16) {\n  // Partial superposition to simulate thermal state\n  apply RY_gate to cmb_simulator qubit i params [0.3 + i * 0.05];\n}\n\n// Add correlations (simulate primordial fluctuations)\nfor i in range(0, 15) {\n  apply CZ_gate to cmb_simulator qubit (i+1) control i;\n}\n\n// Calculate Lempel-Ziv complexity\nlet pattern_count = 0;\nlet total_length = 0;\n\n// Sample measurement outcomes\nfor sample in range(0, 100) {\n  measure cmb_simulator qubit 0;\n  measure cmb_simulator qubit 1;\n  measure cmb_simulator qubit 2;\n  measure cmb_simulator qubit 3;\n  \n  // Simplified LZ complexity counting\n  pattern_count += 1;\n  total_length += 4;\n}\n\n// Calculate normalized complexity\nlet complexity = pattern_count / (total_length / log2(total_length));\n\nprint \"CMB Complexity: \" + complexity;\n\nif (complexity >= 0.4 && complexity <= 0.5) {\n  print \"✓ MATCHES OSH PREDICTION (0.4-0.5)\";\n} else {\n  print \"Outside predicted range\";\n}\n\nprint \"CMB complexity analysis complete\";"
+        }
+      ]
+    }
+  }
+}

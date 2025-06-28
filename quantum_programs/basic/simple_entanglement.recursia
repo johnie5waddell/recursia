@@ -1,0 +1,32 @@
+// Simple Entanglement
+// Creates a Bell pair and demonstrates quantum correlation
+
+state bell_pair : quantum_type {
+  state_qubits: 2,
+  state_coherence: 1.0,
+  state_entropy: 0.0
+};
+
+// Create Bell state
+apply H_gate to bell_pair qubit 0;
+apply CNOT_gate to bell_pair qubits [0, 1];
+
+print "Created Bell state |00⟩ + |11⟩";
+
+// Measure both qubits
+let q0 = 0;
+let q1 = 0;
+
+measure bell_pair qubit 0 into q0;
+measure bell_pair qubit 1 into q1;
+
+print "Qubit 0:";
+print q0;
+print "Qubit 1:";
+print q1;
+
+if (q0 == q1) {
+  print "Qubits are correlated!";
+} else {
+  print "Error: correlation broken";
+}

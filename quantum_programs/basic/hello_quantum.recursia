@@ -1,0 +1,20 @@
+// Hello Quantum World
+// A simple demonstration of Recursia syntax
+
+state hello_state : quantum_type {
+  state_qubits: 1,
+  state_coherence: 1.0
+};
+
+// Apply Hadamard to create superposition
+apply H_gate to hello_state qubit 0;
+
+print "Hello Quantum World!";
+print "State is now in superposition";
+
+// Measure the qubit
+let result = 0;
+measure hello_state qubit 0 into result;
+
+print "Measured:";
+print result;

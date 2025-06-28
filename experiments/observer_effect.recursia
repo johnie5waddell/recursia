@@ -1,0 +1,45 @@
+// Observer Effect Experiment
+// Demonstrates how observer properties affect quantum systems
+
+state quantum_system : quantum_type {
+  state_qubits: 2,
+  state_coherence: 1.0
+};
+
+// Create two different observers
+observer active_observer : conscious_observer {
+  observer_focus: quantum_system,
+  observer_collapse_threshold: 0.9,
+  observer_self_awareness: 0.9
+};
+
+observer passive_observer : standard_observer {
+  observer_focus: quantum_system,
+  observer_collapse_threshold: 0.3,
+  observer_self_awareness: 0.1
+};
+
+// Prepare entangled state
+apply H_gate to quantum_system qubit 0;
+apply CNOT_gate to quantum_system qubits [0, 1];
+
+print "Created entangled state";
+print "Active observer has high awareness";
+print "Passive observer has low awareness";
+
+// The system evolves differently based on which observer is "active"
+// This demonstrates OSH principles
+
+let result0 = 0;
+let result1 = 0;
+
+measure quantum_system qubit 0 into result0;
+measure quantum_system qubit 1 into result1;
+
+print "Measurement results:";
+print result0;
+print result1;
+
+// Observer effects demonstrated
+print "Observer influence demonstrated";
+print "System coherence affected by observation";

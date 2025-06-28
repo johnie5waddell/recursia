@@ -1,0 +1,25 @@
+// Quantum Coin Flip
+// Uses quantum superposition for true randomness
+
+state coin : quantum_type {
+  state_qubits: 1,
+  state_coherence: 1.0
+};
+
+print "Flipping quantum coin...";
+
+// Create superposition (50/50 chance)
+apply H_gate to coin qubit 0;
+
+// Measure to get result
+let result = 0;
+measure coin qubit 0 into result;
+
+if (result == 0) {
+  print "HEADS!";
+} else {
+  print "TAILS!";
+}
+
+print "Result:";
+print result;

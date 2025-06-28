@@ -1,0 +1,81 @@
+// Quantum Teleportation Protocol
+// Teleports quantum state using entanglement
+
+// Combined system for Alice and Bob
+// Qubit 0: Alice's data qubit to teleport
+// Qubit 1: Alice's half of Bell pair
+// Qubit 2: Bob's half of Bell pair
+state teleport_system : quantum_type {
+  state_qubits: 3,
+  state_coherence: 1.0
+};
+
+observer teleport_observer : standard_observer {
+  observer_focus: teleport_system,
+  observer_collapse_threshold: 0.8,
+  observer_self_awareness: 0.6
+};
+
+print "Quantum Teleportation Protocol";
+print "==============================";
+
+// Step 1: Prepare state to teleport on qubit 0
+print "Step 1: Preparing quantum state |ψ⟩ to teleport...";
+apply H_gate to teleport_system qubit 0;
+apply T_gate to teleport_system qubit 0;
+print "Alice's qubit prepared in state |ψ⟩";
+
+// Step 2: Create Bell pair between qubits 1 and 2
+print "";
+print "Step 2: Creating entangled Bell pair...";
+apply H_gate to teleport_system qubit 1;
+apply CNOT_gate to teleport_system qubits [1, 2];
+print "Bell pair |Φ+⟩ = (|00⟩ + |11⟩)/√2 created";
+print "Alice has qubit 1, Bob has qubit 2";
+
+// Step 3: Alice performs Bell measurement
+print "";
+print "Step 3: Alice performs Bell measurement...";
+
+// Alice entangles her data qubit with her Bell pair qubit
+apply CNOT_gate to teleport_system qubits [0, 1];
+apply H_gate to teleport_system qubit 0;
+
+// Measure Alice's qubits
+let alice_data = 0;
+let alice_bell = 0;
+
+measure teleport_system qubit 0 into alice_data;
+measure teleport_system qubit 1 into alice_bell;
+
+print "Alice's measurement results:";
+print "Data qubit:";
+print alice_data;
+print "Bell qubit:";
+print alice_bell;
+
+// Step 4: Bob applies corrections based on Alice's results
+print "";
+print "Step 4: Bob applies corrections...";
+
+// Classical communication of results would happen here
+// Bob applies gates conditionally
+if (alice_bell == 1) {
+  print "Applying X correction...";
+  apply X_gate to teleport_system qubit 2;
+}
+
+if (alice_data == 1) {
+  print "Applying Z correction...";
+  apply Z_gate to teleport_system qubit 2;
+}
+
+print "";
+print "Teleportation complete!";
+print "Bob's qubit (qubit 2) now has Alice's original state |ψ⟩";
+
+// In a real protocol, we could verify by measuring Bob's qubit
+// in the appropriate basis to confirm the state transfer
+
+print "";
+print "Quantum teleportation successfully demonstrated";

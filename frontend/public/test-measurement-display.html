@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Measurement Display Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace;
+            background: #0a0a0a;
+            color: #fff;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #00ff41;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .section {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .measurement {
+            background: #252525;
+            border-left: 3px solid #00ff41;
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        .measurement.zero {
+            border-left-color: #ff9500;
+        }
+        .measurement.one {
+            border-left-color: #00d4ff;
+        }
+        .log {
+            background: #0f0f0f;
+            border: 1px solid #222;
+            padding: 10px;
+            margin: 10px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .status.connected {
+            background: #003300;
+            border: 1px solid #00ff41;
+            color: #00ff41;
+        }
+        .status.error {
+            background: #330000;
+            border: 1px solid #ff0041;
+            color: #ff0041;
+        }
+        button {
+            background: #00ff41;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+        }
+        button:hover {
+            background: #00d438;
+        }
+        button:disabled {
+            background: #555;
+            color: #999;
+            cursor: not-allowed;
+        }
+        .stats {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .stat {
+            flex: 1;
+            text-align: center;
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ff41;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔬 Quantum Measurement Display Test</h1>
+        
+        <div class="section">
+            <h2>Connection Status</h2>
+            <div id="status" class="status">Disconnected</div>
+        </div>
+        
+        <div class="section">
+            <h2>Test Controls</h2>
+            <button id="connectBtn">Connect</button>
+            <button id="runTestBtn" disabled>Run Measurement Test</button>
+            <button id="clearBtn">Clear Results</button>
+        </div>
+        
+        <div class="section">
+            <h2>Measurement Statistics</h2>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="totalMeasurements">0</div>
+                    <div class="stat-label">Total Measurements</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="zeroCount">0</div>
+                    <div class="stat-label">Zeros (|0⟩)</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="oneCount">0</div>
+                    <div class="stat-label">Ones (|1⟩)</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="successRate">0%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Measurement Results</h2>
+            <div id="measurements"></div>
+        </div>
+        
+        <div class="section">
+            <h2>WebSocket Log</h2>
+            <div id="log" class="log"></div>
+        </div>
+    </div>
+
+    <script>
+        let ws = null;
+        let measurements = [];
+        let executionInProgress = false;
+        
+        const statusEl = document.getElementById('status');
+        const logEl = document.getElementById('log');
+        const measurementsEl = document.getElementById('measurements');
+        const connectBtn = document.getElementById('connectBtn');
+        const runTestBtn = document.getElementById('runTestBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const color = type === 'error' ? '#ff0041' : 
+                         type === 'success' ? '#00ff41' : 
+                         type === 'measurement' ? '#00d4ff' : '#888';
+            logEl.innerHTML += `<div style="color: ${color}">[${timestamp}] ${message}</div>`;
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+        
+        function updateStats() {
+            const total = measurements.length;
+            const zeros = measurements.filter(m => m.outcome === 0).length;
+            const ones = measurements.filter(m => m.outcome === 1).length;
+            const successRate = total > 0 ? Math.round((ones + zeros) / total * 100) : 0;
+            
+            document.getElementById('totalMeasurements').textContent = total;
+            document.getElementById('zeroCount').textContent = zeros;
+            document.getElementById('oneCount').textContent = ones;
+            document.getElementById('successRate').textContent = successRate + '%';
+        }
+        
+        function addMeasurement(measurement) {
+            measurements.push(measurement);
+            
+            const measurementDiv = document.createElement('div');
+            measurementDiv.className = `measurement ${measurement.outcome === 0 ? 'zero' : 'one'}`;
+            measurementDiv.innerHTML = `
+                Qubit ${measurement.qubit}: |${measurement.outcome}⟩ 
+                (probability: ${(measurement.probability * 100).toFixed(1)}%)
+                ${measurement.timestamp ? ` at ${new Date(measurement.timestamp).toLocaleTimeString()}` : ''}
+            `;
+            measurementsEl.appendChild(measurementDiv);
+            
+            updateStats();
+        }
+        
+        function connect() {
+            if (ws) {
+                ws.close();
+            }
+            
+            const wsUrl = 'ws://localhost:3001/ws';
+            log(`Connecting to ${wsUrl}...`);
+            
+            ws = new WebSocket(wsUrl);
+            
+            ws.onopen = () => {
+                log('Connected to WebSocket', 'success');
+                statusEl.textContent = 'Connected';
+                statusEl.className = 'status connected';
+                connectBtn.textContent = 'Disconnect';
+                runTestBtn.disabled = false;
+            };
+            
+            ws.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    
+                    if (data.type === 'execution_log' && data.data) {
+                        const logData = data.data;
+                        
+                        if (logData.category === 'measurement' && logData.measurementResult) {
+                            const measurement = logData.measurementResult;
+                            log(`Measurement: Qubit ${measurement.qubit} = |${measurement.outcome}⟩`, 'measurement');
+                            addMeasurement(measurement);
+                        }
+                    } else if (data.type === 'execution_complete') {
+                        log('Execution complete', 'success');
+                        executionInProgress = false;
+                        runTestBtn.disabled = false;
+                        
+                        // Check for measurements in result
+                        if (data.result && data.result.measurements) {
+                            log(`Found ${data.result.measurements.length} measurements in result`, 'info');
+                            data.result.measurements.forEach((m, i) => {
+                                log(`  Result measurement ${i+1}: value=${m.value}, outcome=${m.outcome}`, 'info');
+                            });
+                        }
+                    }
+                } catch (e) {
+                    log(`Error parsing message: ${e.message}`, 'error');
+                }
+            };
+            
+            ws.onclose = () => {
+                log('Disconnected from WebSocket');
+                statusEl.textContent = 'Disconnected';
+                statusEl.className = 'status error';
+                connectBtn.textContent = 'Connect';
+                runTestBtn.disabled = true;
+                ws = null;
+            };
+            
+            ws.onerror = (error) => {
+                log(`WebSocket error: ${error}`, 'error');
+            };
+        }
+        
+        function runTest() {
+            if (!ws || ws.readyState !== WebSocket.OPEN) {
+                log('Not connected to WebSocket', 'error');
+                return;
+            }
+            
+            if (executionInProgress) {
+                log('Execution already in progress', 'error');
+                return;
+            }
+            
+            executionInProgress = true;
+            runTestBtn.disabled = true;
+            
+            const testProgram = `# Measurement Display Test
+# Creates multiple superpositions and measures them
+
+let q1 = qubit();
+let q2 = qubit();
+let q3 = qubit();
+
+# Test 1: Simple superposition
+hadamard q1;
+let m1 = measure q1;
+output "Measurement 1: ";
+output m1;
+
+# Test 2: Another superposition
+hadamard q2;
+let m2 = measure q2;
+output "Measurement 2: ";
+output m2;
+
+# Test 3: Entangled measurement
+let q4 = qubit();
+hadamard q3;
+cnot q3 q4;
+let m3 = measure q3;
+let m4 = measure q4;
+output "Entangled measurements: ";
+output m3;
+output m4;
+
+# Test 4: Multiple measurements
+let q5 = qubit();
+hadamard q5;
+let m5 = measure q5;
+output "Final measurement: ";
+output m5;`;
+            
+            const message = {
+                type: 'execute',
+                payload: {
+                    code: testProgram,
+                    universeId: 'test-universe-' + Date.now()
+                }
+            };
+            
+            log('Sending test program...');
+            ws.send(JSON.stringify(message));
+        }
+        
+        connectBtn.addEventListener('click', () => {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.close();
+            } else {
+                connect();
+            }
+        });
+        
+        runTestBtn.addEventListener('click', runTest);
+        
+        clearBtn.addEventListener('click', () => {
+            measurements = [];
+            measurementsEl.innerHTML = '';
+            logEl.innerHTML = '';
+            updateStats();
+            log('Cleared all results');
+        });
+        
+        // Auto-connect on load
+        setTimeout(connect, 500);
+    </script>
+</body>
+</html>

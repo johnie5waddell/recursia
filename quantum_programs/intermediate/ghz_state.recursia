@@ -1,0 +1,47 @@
+// GHZ State Creation
+// Three-qubit entanglement demonstration
+
+state ghz : quantum_type {
+  state_qubits: 3,
+  state_coherence: 1.0
+};
+
+observer ghz_monitor : standard_observer {
+  observer_focus: ghz,
+  observer_collapse_threshold: 0.7,
+  observer_self_awareness: 0.5
+};
+
+// Create GHZ state
+apply H_gate to ghz qubit 0;
+apply CNOT_gate to ghz qubits [0, 1];
+apply CNOT_gate to ghz qubits [0, 2];
+
+print "Created GHZ state (|000⟩ + |111⟩)/√2";
+
+// Measure all qubits
+let q0 = 0;
+let q1 = 0;
+let q2 = 0;
+
+measure ghz qubit 0 into q0;
+measure ghz qubit 1 into q1;
+measure ghz qubit 2 into q2;
+
+print "Results:";
+print "Q0:";
+print q0;
+print "Q1:";
+print q1;
+print "Q2:";
+print q2;
+
+if (q0 == q1) {
+  if (q1 == q2) {
+    print "Perfect GHZ correlation!";
+  } else {
+    print "Correlation broken";
+  }
+} else {
+  print "Correlation broken";
+}

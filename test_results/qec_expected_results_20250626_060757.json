@@ -1,0 +1,118 @@
+{
+  "scenarios": [
+    {
+      "name": "Small System - No QEC",
+      "qubits": 8,
+      "base_error": 0.01,
+      "qec_enabled": false,
+      "code_distance": 0,
+      "phi": 0.5,
+      "recursion_depth": 5
+    },
+    {
+      "name": "Medium System - Basic QEC",
+      "qubits": 10,
+      "base_error": 0.01,
+      "qec_enabled": true,
+      "code_distance": 3,
+      "phi": 0.8,
+      "recursion_depth": 6
+    },
+    {
+      "name": "Medium System - QEC + Consciousness",
+      "qubits": 12,
+      "base_error": 0.001,
+      "qec_enabled": true,
+      "code_distance": 5,
+      "phi": 2.5,
+      "recursion_depth": 8
+    },
+    {
+      "name": "Large System - Full OSH Enhancement",
+      "qubits": 14,
+      "base_error": 0.001,
+      "qec_enabled": true,
+      "code_distance": 7,
+      "phi": 5.0,
+      "recursion_depth": 10
+    },
+    {
+      "name": "Maximum Performance",
+      "qubits": 16,
+      "base_error": 0.0001,
+      "qec_enabled": true,
+      "code_distance": 9,
+      "phi": 10.0,
+      "recursion_depth": 12
+    }
+  ],
+  "results": [
+    {
+      "scenario": "Small System - No QEC",
+      "qubits": 8,
+      "base_error_rate": 0.01,
+      "effective_error_rate": 0.01,
+      "measured_error_rate": 0.010496714153011233,
+      "suppression_factor": 1.0,
+      "phi": 0.5,
+      "qec_enabled": false,
+      "code_distance": 0,
+      "consciousness_emerged": false
+    },
+    {
+      "scenario": "Medium System - Basic QEC",
+      "qubits": 10,
+      "base_error_rate": 0.01,
+      "effective_error_rate": 0.008178617799362787,
+      "measured_error_rate": 0.008065536711905276,
+      "suppression_factor": 1.2227004911244441,
+      "phi": 0.8,
+      "qec_enabled": true,
+      "code_distance": 3,
+      "consciousness_emerged": false
+    },
+    {
+      "scenario": "Medium System - QEC + Consciousness",
+      "qubits": 12,
+      "base_error_rate": 0.001,
+      "effective_error_rate": 5.334880910740096e-07,
+      "measured_error_rate": 5.68041503254195e-07,
+      "suppression_factor": 1874.4560876453986,
+      "phi": 2.5,
+      "qec_enabled": true,
+      "code_distance": 5,
+      "consciousness_emerged": true
+    },
+    {
+      "scenario": "Large System - Full OSH Enhancement",
+      "qubits": 14,
+      "base_error_rate": 0.001,
+      "effective_error_rate": 2.8460954331779084e-08,
+      "measured_error_rate": 3.279564265069557e-08,
+      "suppression_factor": 35135.856245108924,
+      "phi": 5.0,
+      "qec_enabled": true,
+      "code_distance": 7,
+      "consciousness_emerged": true
+    },
+    {
+      "scenario": "Maximum Performance",
+      "qubits": 16,
+      "base_error_rate": 0.0001,
+      "effective_error_rate": 8.100259214756142e-16,
+      "measured_error_rate": 7.910588911629247e-16,
+      "suppression_factor": 123452839407.69604,
+      "phi": 10.0,
+      "qec_enabled": true,
+      "code_distance": 9,
+      "consciousness_emerged": true
+    }
+  ],
+  "summary": {
+    "min_error_rate_no_qec": 0.01,
+    "min_error_rate_qec": 8.100259214756142e-16,
+    "min_error_rate_conscious": 8.100259214756142e-16,
+    "max_suppression": 123452839407.69604,
+    "consciousness_enhancement_factor": 100967358976.16586
+  }
+}

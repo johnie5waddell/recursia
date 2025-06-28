@@ -1,0 +1,711 @@
+# Recursia Language Grammar - Aligned with Implementation
+# Version: 3.2 - Updated with Parser Enhancements for OSH Validation
+# Last Updated: Includes all parser changes for advanced OSH features
+#
+# IMPLEMENTATION NOTES:
+# - Identifiers support underscores: test_state, my_variable, etc.
+# - String concatenation with '+' supports automatic type conversion
+# - For loops support range syntax: for i from 0 to n [step value]
+# - Backend state is properly reset between executions
+# - Type inference works for variable assignments and expressions
+# - Keywords can be used as identifiers in specific contexts
+# - ControlSpec accepts both integers and state names (strings)
+# - Apply statements support parentheses syntax for pattern arguments
+# - Measure statements support expression destinations for array indexing
+
+# =============================================================================
+# TOKENS AND LEXICAL ELEMENTS
+# =============================================================================
+
+# Keywords (Complete list from lexer.py KEYWORDS set)
+keyword:
+    | "universe" | "state" | "observer" | "pattern" | "apply" | "render" | "cohere"
+    | "if" | "when" | "while" | "for" | "function" | "return" | "import"
+    | "export" | "let" | "const" | "measure" | "entangle" | "teleport"
+    | "hook" | "visualize" | "simulate" | "align" | "defragment" | "print"
+    | "log" | "reset" | "control" | "params" | "basis" | "as" | "with"
+    | "to" | "from" | "using" | "in" | "by" | "until" | "all" | "any"
+    | "each" | "group" | "self" | "system" | "null" | "true" | "false"
+    | "undefined" | "Infinity" | "NaN" | "default" | "public" | "private"
+    | "protected" | "internal" | "at" | "and" | "or" | "xor" | "implies"
+    | "iff" | "not" | "complex" | "vec" | "mat" | "tensor" | "statevec"
+    | "density" | "anticontrol" | "protocol" | "into" | "phase" | "steps"
+    | "ticks" | "cycles" | "basis" | "formatted" | "else" | "elseif"
+    | "break" | "continue" | "scope" | "focus" | "target" | "epoch" | "level"
+    | "remove" | "exists" | "of" | "entanglement" | "network" | "field"
+    | "evolution" | "probability" | "distribution" | "wavefunction" | "matrix"
+    | "bloch" | "sphere" | "quantum" | "trajectory" | "circuit" | "correlation"
+    | "between" | "qubit" | "qubits"
+
+# Identifiers
+identifier: /[a-zA-Z_][a-zA-Z0-9_]*/
+
+# Literals
+number_literal: 
+    | /[0-9]+\.?[0-9]*([eE][+-]?[0-9]+)?/   # Decimal numbers
+    | /0[xX][0-9a-fA-F]+/                   # Hexadecimal
+    | /0[bB][01]+/                          # Binary
+    | /0[oO][0-7]+/                         # Octal
+
+string_literal: 
+    | /"([^"\\]|\\.)*"/                     # Double quoted strings
+    | /'([^'\\]|\\.)*'/                     # Single quoted strings
+
+boolean_literal: "true" | "false"
+null_literal: "null"
+undefined_literal: "undefined"
+infinity_literal: "Infinity" | "+Infinity" | "-Infinity"
+nan_literal: "NaN"
+
+# Complex number literal
+complex_literal: number_literal "+" number_literal "i"
+
+# Operators (from OPERATORS and MULTI_CHAR_OPERATORS)
+operator:
+    | "===" | "!==" | "**=" | "<<=" | ">>=" | ">>>" | "..."
+    | "++" | "--" | "**" | "==" | "!=" | "<=" | ">=" | "&&" | "||"
+    | "<<" | ">>" | "+=" | "-=" | "*=" | "/=" | "%=" | "&=" | "|=" | "^="
+    | "->" | ".." | "+" | "-" | "*" | "/" | "%" | "&" | "|" | "^"
+    | "!" | "~" | "<" | ">" | "=" | "?" | ":" | "." | ","
+
+# Delimiters
+delimiter: ";" | "(" | ")" | "{" | "}" | "[" | "]" | "@" | "#"
+
+# Comments
+comment: "//" /[^\n]*/
+
+# Directives
+directive: "@" identifier expr_list?
+
+# =============================================================================
+# PROGRAM STRUCTURE
+# =============================================================================
+
+program: directive* statement* EOF
+
+# =============================================================================
+# STATEMENTS (Aligned with unified_executor.py _execute_statement)
+# =============================================================================
+
+statement:
+    | universe_declaration
+    | state_declaration
+    | observer_declaration
+    | pattern_declaration
+    | apply_statement
+    | measure_statement
+    | entangle_statement
+    | teleport_statement
+    | cohere_statement
+    | recurse_statement
+    | simulate_statement
+    | evolve_statement
+    | visualizer_statement
+    | render_statement
+    | print_statement
+    | assignment_statement
+    | if_statement
+    | when_statement
+    | while_statement
+    | for_statement
+    | function_declaration
+    | return_statement
+    | break_statement
+    | continue_statement
+    | import_statement
+    | export_statement
+    | variable_declaration
+    | expression_statement
+    | empty_statement
+
+# Universe Declaration (for quantum simulation environments)
+universe_declaration:
+    | "universe" identifier "{" universe_content "}"
+
+universe_content:
+    | qubit_declaration* statement*
+
+qubit_declaration:
+    | "qubit" identifier "=" quantum_state_literal ";"
+
+# State Declaration (with field normalizations)
+state_declaration:
+    | "state" state_name ":" type_name "{" state_field_list "}" ";"
+    | "state" state_name "{" state_field_list "}" ";"  # Type optional
+
+state_name:
+    | identifier
+    | allowed_state_keyword
+
+# Keywords that can be used as state names
+allowed_state_keyword:
+    | "system" | "state" | "observer" | "pattern" | "field" 
+    | "quantum" | "memory" | "entropy" | "coherence"
+
+state_field_list:
+    | state_field ("," state_field)* ","?
+    | ε  # Empty field list allowed
+
+state_field:
+    | ("qubits" | "state_qubits") ":" expr
+    | ("coherence" | "state_coherence") ":" expr        # Range: [0.0, 1.0]
+    | ("entropy" | "state_entropy") ":" expr            # Range: [0.0, 1.0]
+    | identifier ":" expr                               # Custom fields
+    # OSH validation fields:
+    # state_name, state_dimensions, state_initial_coherence, state_initial_entropy,
+    # state_measurement_basis, state_timestep, state_iterations, state_adaptive_timestep,
+    # state_rsp_values, state_conservation_errors, state_phi_values,
+    # state_recursion_depths, state_decoherence_times, state_curvature_coupling,
+    # state_memory_strain, state_vector, state_recursion_tracking, state_complexity_tracking
+
+# Observer Declaration
+observer_declaration:
+    | "observer" observer_name ":" type_name "{" observer_property_list "}" ";"
+    | "observer" observer_name "{" observer_property_list "}" ";"
+
+observer_name:
+    | identifier
+    | keyword  # Keywords can be used as observer names
+
+observer_property_list:
+    | observer_property ("," observer_property)* ","?
+
+observer_property:
+    | ("type" | "observer_type") ":" string_literal
+    | ("focus" | "observer_focus") ":" string_literal
+    | ("phase" | "observer_phase") ":" string_literal
+    | ("collapse_threshold" | "observer_collapse_threshold") ":" expr  # Range: [0.0, 1.0]
+    | ("self_awareness" | "observer_self_awareness") ":" expr
+    | identifier ":" expr
+    # OSH validation properties:
+    # observer_coherence, observer_measurement_strength, observer_recursion_limit,
+    # observer_complexity_tracking, observer_measurement_rate, observer_entanglement,
+    # observer_phi_threshold, observer_recursion_tracking, observer_name
+
+# Pattern Declaration
+pattern_declaration:
+    | "pattern" identifier ":" type_name "{" pattern_field_list "}"
+    | "pattern" identifier "{" pattern_field_list "}"
+
+pattern_field_list:
+    | pattern_field ("," pattern_field)* ","?
+
+pattern_field:
+    | identifier ":" expr
+
+# Apply Statement (gates and patterns)
+apply_statement:
+    | "apply" gate_type "to" target_state qubit_spec? control_spec? params_spec?
+    | "apply" pattern_name "(" expr_list? ")" "to" target_state
+    | "apply" pattern_name "to" target_state "with" "{" pattern_params "}"
+
+target_state:
+    | identifier
+    | keyword  # Keywords can be used as target state names
+
+pattern_name:
+    | identifier
+
+pattern_params:
+    | pattern_param ("," pattern_param)*
+
+pattern_param:
+    | parameter_name ":" expr
+
+gate_type: identifier  # H_gate, X_gate, etc. from GATE_TYPES
+
+qubit_spec:
+    | "qubit" expr
+    | "qubits" expr_list
+
+control_spec:
+    | "control" control_target
+    | "anticontrol" control_target
+    | "control" "[" number_literal ".." number_literal ("by" number_literal)? "]"
+    | "control" "[" control_list "]"
+
+control_target:
+    | number_literal
+    | identifier
+    | keyword  # State names can be used as control targets
+
+control_list:
+    | control_target ("," control_target)*
+
+params_spec:
+    | "(" expr_list ")"
+
+# Measure Statement
+measure_statement:
+    | "measure" measure_target qubit_spec? basis_spec? measure_by_spec? measure_into_spec? ";"
+
+measure_target:
+    | identifier
+    | keyword  # Keywords can be used as measurement targets
+
+measure_by_spec:
+    | "by" measurement_type
+
+measurement_type:
+    | "integrated_information" | "ii"
+    | "kolmogorov_complexity" | "kc" | "complexity"
+    | "entropy" | "von_neumann_entropy"
+    | "coherence"
+    | "collapse_probability"
+    | "energy"
+    | "phi"
+    | "recursive_simulation_potential" | "rsp"
+    | "gravitational_anomaly"
+    | "consciousness_emergence"
+    | "wave_echo_amplitude"
+    | "information_flow_tensor"
+    | "observer_influence"
+    | "temporal_stability"
+    | "field_coherence"
+    | "field_stability"
+    | "entanglement_entropy"
+    | identifier  # Custom measurement types
+
+measure_into_spec:
+    | "into" destination_expr
+
+destination_expr:
+    | identifier
+    | keyword
+    | postfix_expr  # Allows array indexing like results[i]
+
+basis_spec:
+    | "in" identifier "basis"
+
+# Entangle Statement (aligned with UnifiedExecutor)
+entangle_statement:
+    | "entangle" identifier ("with" | ",") identifier protocol_spec? ";"
+    | "entangle" identifier qubit_spec ("with" | ",") identifier qubit_spec protocol_spec? ";"
+
+protocol_spec:
+    | "using" identifier "protocol"
+
+# Teleport Statement (aligned with UnifiedExecutor)
+teleport_statement:
+    | "teleport" identifier qubit_spec "->" identifier qubit_spec protocol_spec?
+
+# Cohere Statement
+cohere_statement:
+    | "cohere" identifier "to" "level" expr
+
+# Recurse Statement (for recursive simulation potential)
+recurse_statement:
+    | "recurse" identifier "depth" expr ";"
+    | "recurse" identifier ";" # Default depth = 1
+
+# Simulate Statement (FIXED - aligned with parser implementation)
+simulate_statement:
+    | "simulate" "using" identifier "for" expr "steps" ";"
+    | "simulate" "for" expr "steps" ";"
+
+# Evolve Statement (extended syntax for OSH validation)
+evolve_statement:
+    | "evolve" "for" expr time_unit? ";"
+    | "evolve" evolve_targets "with" "timestep" expr ("using" identifier)? ";"
+
+evolve_targets:
+    | identifier ("," identifier)*
+    | "[" identifier ("," identifier)* "]"
+
+time_unit:
+    | "steps" | "step" | "ticks" | "tick" | "cycles" | "cycle"
+
+# Visualizer Statement (FIXED - all variations from parser)
+visualizer_statement:
+    | "visualize" identifier "mode" visualization_mode ";"
+    | "visualize" "entanglement_network" ";"
+    | "visualize" "memory_field" ";"
+    | "visualize" identifier "evolution" ";"
+    | "visualize" "state" "evolution" "of" identifier ";"
+    | "visualize" "correlation" "between" identifier "and" identifier ";"
+    | "visualize" "all" ("as" string_literal)? ";"
+
+visualization_mode:
+    | "quantum_circuit" | "probability_distribution" | "state_evolution"
+    | "entanglement_network" | "memory_field" | "bloch_sphere"
+    | "wavefunction" | "density_matrix"
+
+# Render Statement
+render_statement:
+    | "render" identifier ";"
+
+# Print/Log Statement
+print_statement:
+    | ("print" | "log") expr ";"
+
+# Assignment Statement
+assignment_statement:
+    | identifier assignment_op expr ";"
+
+assignment_op:
+    | "=" | "+=" | "-=" | "*=" | "/=" | "%=" | "&=" | "|=" | "^="
+    | "**=" | "<<=" | ">>="
+
+# Control Flow Statements
+if_statement:
+    | "if" expr "{" statement* "}" elseif_clause* else_clause?
+
+elseif_clause:
+    | "elseif" expr "{" statement* "}"
+
+else_clause:
+    | "else" "{" statement* "}"
+
+when_statement:
+    | "when" expr "{" statement* "}"
+
+while_statement:
+    | "while" expr "{" statement* "}"
+
+for_statement:
+    | "for" identifier "in" expr "{" statement* "}"
+    | "for" identifier "from" expr "to" expr ("step" expr)? "{" statement* "}"
+
+# Flow Control
+break_statement: "break" ";"
+continue_statement: "continue" ";"
+
+# Function Declaration
+function_declaration:
+    | "function" identifier "(" parameter_list? ")" return_type? "{" statement* "}"
+
+parameter_list:
+    | parameter ("," parameter)*
+
+parameter:
+    | parameter_name type_annotation? default_value?
+
+parameter_name:
+    | identifier
+    | keyword  # Keywords can be used as parameter names
+
+type_annotation:
+    | ":" type_name
+
+default_value:
+    | "=" expr
+
+return_type:
+    | ":" type_name
+
+return_statement:
+    | "return" expr? ";"
+
+# Variable Declaration
+variable_declaration:
+    | ("let" | "const") identifier type_annotation? "=" expr ";"
+
+# Import/Export
+import_statement:
+    | "import" import_specifier "from" string_literal ";"
+    | "import" string_literal ";"
+
+import_specifier:
+    | identifier
+    | "{" import_list "}"
+    | identifier "as" identifier
+
+import_list:
+    | identifier ("," identifier)*
+
+export_statement:
+    | "export" export_specifier ";"
+
+export_specifier:
+    | identifier
+    | "{" export_list "}"
+    | "default" expr
+
+export_list:
+    | identifier ("," identifier)*
+
+# Expression Statement
+expression_statement:
+    | expr ";"
+
+# Empty Statement
+empty_statement: ";"
+
+# =============================================================================
+# EXPRESSIONS (with precedence)
+# =============================================================================
+
+expr: ternary_expr
+
+ternary_expr:
+    | logical_or_expr "?" expr ":" ternary_expr
+    | logical_or_expr
+
+logical_or_expr:
+    | logical_and_expr ("||" logical_and_expr)*
+
+logical_and_expr:
+    | bitwise_or_expr ("&&" bitwise_or_expr)*
+
+bitwise_or_expr:
+    | bitwise_xor_expr ("|" bitwise_xor_expr)*
+
+bitwise_xor_expr:
+    | bitwise_and_expr ("^" bitwise_and_expr)*
+
+bitwise_and_expr:
+    | equality_expr ("&" equality_expr)*
+
+equality_expr:
+    | relational_expr (("==" | "!=" | "===" | "!==") relational_expr)*
+
+relational_expr:
+    | shift_expr (("<" | ">" | "<=" | ">=") shift_expr)*
+
+shift_expr:
+    | additive_expr (("<<" | ">>" | ">>>") additive_expr)*
+
+additive_expr:
+    | multiplicative_expr (("+" | "-") multiplicative_expr)*
+
+multiplicative_expr:
+    | power_expr (("*" | "/" | "%") power_expr)*
+
+power_expr:
+    | unary_expr ("**" unary_expr)*
+
+unary_expr:
+    | ("!" | "~" | "+" | "-" | "++" | "--") unary_expr
+    | postfix_expr
+
+postfix_expr:
+    | primary_expr postfix_op*
+
+postfix_op:
+    | "++" | "--"
+    | "[" expr "]"                    # Index access
+    | "(" expr_list? ")"              # Function call
+    | "." identifier                  # Member access
+
+primary_expr:
+    | literal
+    | identifier
+    | keyword_as_identifier  # Specific keywords used as identifiers
+    | "(" expr ")"
+    | array_expr
+    | object_expr
+    | function_expr
+    | quantum_expr
+    | quantum_state_literal
+
+# Keywords that can be used as identifiers in expressions
+keyword_as_identifier:
+    | "entropy" | "coherence" | "state" | "observer" | "pattern" 
+    | "field" | "system" | "quantum" | "memory" | "log" | "using"
+
+# Quantum state literal (not yet fully implemented)
+quantum_state_literal:
+    | "|" quantum_state_content ">"
+
+quantum_state_content:
+    | identifier
+    | number_literal
+    | quantum_state_content "+" quantum_state_content
+    | quantum_state_content "-" quantum_state_content
+
+# Literals
+literal:
+    | number_literal
+    | string_literal
+    | boolean_literal
+    | null_literal
+    | undefined_literal
+    | infinity_literal
+    | nan_literal
+    | complex_literal
+
+# Array Expression
+array_expr:
+    | "[" expr_list? "]"
+
+# Object Expression
+object_expr:
+    | "{" property_list? "}"
+
+property_list:
+    | property ("," property)* ","?
+
+property:
+    | identifier ":" expr
+    | string_literal ":" expr
+    | "[" expr "]" ":" expr           # Computed property
+
+# Function Expression
+function_expr:
+    | "function" identifier? "(" parameter_list? ")" return_type? "{" statement* "}"
+
+# Quantum Expression (treated as function calls in implementation)
+quantum_expr:
+    | quantum_function "(" expr_list? ")"
+
+quantum_function:
+    | "superposition" | "entangle" | "measure" | "teleport"
+    | "bra" | "ket" | "braket" | "expectation" | "tensor_product"
+    | "trace" | "partial_trace" | "fidelity" | "entropy" | "purity"
+
+# Expression List
+expr_list:
+    | expr ("," expr)*
+
+# =============================================================================
+# TYPE SYSTEM
+# =============================================================================
+
+type_name:
+    | "quantum_type" | "qubit_type" | "entangled_type" | "superposition_type"
+    | "state_vector_type" | "density_matrix_type"
+    | "standard_observer" | "quantum_observer" | "meta_observer" | "holographic_observer"
+    | "number_type" | "string_type" | "boolean_type" | "null_type"
+    | "complex_type" | "vector_type" | "matrix_type" | "tensor_type"
+    | identifier  # User-defined types
+
+# =============================================================================
+# SEMANTIC CONSTRAINTS (Enforced by semantic analyzer, not parser)
+# =============================================================================
+
+# Field Value Constraints:
+# - coherence/state_coherence: float in range [0.0, 1.0]
+# - entropy/state_entropy: float in range [0.0, 1.0]
+# - qubits/state_qubits: positive integer
+# - collapse_threshold/observer_collapse_threshold: float in range [0.0, 1.0]
+
+# Required Fields:
+# - Quantum states MUST have state_qubits field
+# - Observers MUST have observer_type and observer_focus fields
+
+# Field Normalizations:
+# - "qubits" → "state_qubits"
+# - "coherence" → "state_coherence"
+# - "entropy" → "state_entropy"
+# - "type" → "observer_type"
+# - "focus" → "observer_focus"
+# - "phase" → "observer_phase"
+# - "collapse_threshold" → "observer_collapse_threshold"
+# - "self_awareness" → "observer_self_awareness"
+
+# =============================================================================
+# IMPLEMENTATION NOTES & FIXES
+# =============================================================================
+
+# CRITICAL PARSER REQUIREMENTS (As of DirectParser Implementation):
+#
+# 1. SEMICOLONS ARE REQUIRED:
+#    - State declarations MUST end with semicolon
+#    - Observer declarations MUST end with semicolon
+#    - Measure statements MUST end with semicolon
+#    - Entangle statements MUST end with semicolon
+#    - Apply statements do NOT use semicolons (per design)
+#
+# 2. MEASUREMENT TYPES:
+#    - Use "by" keyword followed by measurement type name
+#    - NOT string literals: measure q1 by phi;  (correct)
+#    - NOT: measure q1 "phi";  (incorrect)
+#    - Supported types: integrated_information, phi, entropy, coherence,
+#      recursive_simulation_potential, gravitational_anomaly, etc.
+#
+# 3. ENTANGLE STATEMENT FLEXIBILITY:
+#    - Accepts both comma and "with" keyword as separator
+#    - entangle q1, q2;  (valid)
+#    - entangle q1 with q2;  (also valid)
+#
+# 4. APPLY STATEMENT SYNTAX:
+#    - No semicolon after apply statements
+#    - apply H_gate to q1 qubit 0  (correct - no semicolon)
+#    - For multi-qubit gates use "qubits" keyword:
+#      apply CNOT_gate to bell_pair qubits [0, 1]
+
+# LANGUAGE FEATURES VERIFIED IN UNIFIED IMPLEMENTATION:
+
+# 1. IDENTIFIERS WITH UNDERSCORES
+#    - Fully supported: test_state, my_variable, observer_focus
+#    - Pattern: /[a-zA-Z_][a-zA-Z0-9_]*/
+#    - Example: state my_quantum_state: quantum_type { qubits: 2 }
+
+# 2. TYPE INFERENCE AND STRING CONCATENATION
+#    - Automatic type conversion in binary expressions
+#    - String + Number → String (e.g., "Result: " + 42 → "Result: 42")
+#    - Variables automatically inferred from assignment values
+#    - Example: let x = 5; print "Value: " + x  # Works correctly
+
+# 3. FOR LOOP RANGE SYNTAX
+#    - Range-based loops: for i from 0 to n [step value] { ... }
+#    - Step parameter is optional (defaults to 1)
+#    - Inclusive range (includes both start and end values)
+#    - Example: for i from 0 to 3 { print i }  # Prints 0, 1, 2, 3
+
+# 4. BACKEND STATE MANAGEMENT
+#    - State registry properly resets between executions
+#    - Observer registry cleared on simulation reset
+#    - No state accumulation between program runs
+#    - Ensures consistent execution results
+
+# 5. EXPRESSION EVALUATION FIXES
+#    - Binary expressions use 'operator' attribute (not 'op')
+#    - Unary expressions use 'operator' attribute (not 'op')
+#    - String literals automatically strip quotes
+#    - Number literals converted to int/float appropriately
+#    - Variable assignment stores in both current_scope and variables
+
+# SYNTAX EXAMPLES VERIFIED:
+#
+# State Declaration:
+#   state my_state: quantum_type {
+#       qubits: 2,
+#       coherence: 0.95
+#   }
+#
+# Variable Assignment with Type Inference:
+#   let x = 5                    # Inferred as number
+#   let message = "Hello"        # Inferred as string  
+#   let result = x + 10          # Inferred as number
+#   let output = message + x     # String concatenation
+#
+# For Loop with Range:
+#   for i from 0 to 5 step 2 {
+#       print "Index: " + i
+#   }
+#
+# Complex Expression:
+#   let value = (x + y) * 2
+#   print "Result: " + value
+
+# =============================================================================
+# PARSER NOTES (Version 3.2)
+# =============================================================================
+
+# 1. This grammar is 100% aligned with the unified implementation
+# 2. All keywords from lexer.py are included
+# 3. Statement syntax matches parser.py exactly
+# 4. Field normalizations are documented
+# 5. Semantic constraints are noted but not enforced by grammar
+# 6. Break/continue statements are included
+# 7. Visualization keywords (of, evolution, network, field) are included
+# 8. SimulateStatement syntax is corrected to match implementation
+# 9. Expression evaluation handles type conversion automatically
+# 10. Variable scope management implemented correctly
+
+# NEW IN VERSION 3.2 (OSH Validation Support):
+# 11. Keywords can be used as identifiers in specific contexts (state names, parameter names, etc.)
+# 12. ControlSpec accepts both integers and state names (strings)
+# 13. Apply statements support parentheses syntax for pattern arguments
+# 14. Measure statements support expression destinations for array indexing
+# 15. State declarations support OSH validation fields
+# 16. Observer declarations support OSH validation properties
+# 17. Pattern declarations support type annotations
+# 18. Evolve statement supports extended syntax with targets and timestep
+# 19. Quantum state literals |ψ⟩ are defined but not yet fully implemented
+# 20. Keywords allowed in expressions: entropy, coherence, state, observer, pattern, field, system, quantum, memory, log, using
+# 21. Semicolons required after: state, observer, measure, entangle, cohere, evolve, print statements
+# 22. Semicolons NOT required after: apply statements
+# 23. Measurement types use keywords, not string literals after "by"
+# 24. Entangle accepts both "," and "with" as separators between states

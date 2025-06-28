@@ -1,0 +1,50 @@
+// Test Superposition Experiment
+// Verifies basic quantum superposition behavior
+
+print "Testing superposition...";
+
+// Run multiple trials with separate states
+let count_0 = 0;
+let count_1 = 0;
+
+// Trial 1
+state test1 : quantum_type { state_qubits: 1, state_coherence: 1.0 };
+apply H_gate to test1 qubit 0;
+let result1 = 0;
+measure test1 qubit 0 into result1;
+if (result1 == 0) { count_0 = count_0 + 1; } else { count_1 = count_1 + 1; }
+
+// Trial 2
+state test2 : quantum_type { state_qubits: 1, state_coherence: 1.0 };
+apply H_gate to test2 qubit 0;
+let result2 = 0;
+measure test2 qubit 0 into result2;
+if (result2 == 0) { count_0 = count_0 + 1; } else { count_1 = count_1 + 1; }
+
+// Trial 3
+state test3 : quantum_type { state_qubits: 1, state_coherence: 1.0 };
+apply H_gate to test3 qubit 0;
+let result3 = 0;
+measure test3 qubit 0 into result3;
+if (result3 == 0) { count_0 = count_0 + 1; } else { count_1 = count_1 + 1; }
+
+// Trial 4
+state test4 : quantum_type { state_qubits: 1, state_coherence: 1.0 };
+apply H_gate to test4 qubit 0;
+let result4 = 0;
+measure test4 qubit 0 into result4;
+if (result4 == 0) { count_0 = count_0 + 1; } else { count_1 = count_1 + 1; }
+
+// Trial 5
+state test5 : quantum_type { state_qubits: 1, state_coherence: 1.0 };
+apply H_gate to test5 qubit 0;
+let result5 = 0;
+measure test5 qubit 0 into result5;
+if (result5 == 0) { count_0 = count_0 + 1; } else { count_1 = count_1 + 1; }
+
+print "Results after 5 measurements:";
+print "0 count:";
+print count_0;
+print "1 count:";
+print count_1;
+print "Should be approximately 50/50 for true superposition";

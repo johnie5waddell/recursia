@@ -1,0 +1,458 @@
+{
+  "error_rate_analysis": {
+    "3": [
+      {
+        "code_type": "surface_code",
+        "code_distance": 3,
+        "physical_error_rate": 0.0001,
+        "logical_error_rate": 0.0,
+        "error_suppression_factor": Infinity,
+        "fidelity_without_qec": 0.9990004998333751,
+        "fidelity_with_qec": 1.0,
+        "fidelity_improvement": 0.0010005001667082,
+        "decode_time_avg": 4.0769577026367187e-07,
+        "decode_time_std": 7.450685500360117e-07,
+        "threshold_estimate": 0.01,
+        "confidence_interval": [
+          0.009000000000000001,
+          0.011000000000000001
+        ],
+        "samples": 1000
+      },
+      {
+        "code_type": "surface_code",
+        "code_distance": 3,
+        "physical_error_rate": 0.001,
+        "logical_error_rate": 0.01,
+        "error_suppression_factor": 0.1,
+        "fidelity_without_qec": 0.9900498337491681,
+        "fidelity_with_qec": 0.9048374180359595,
+        "fidelity_improvement": -0.08606881472877193,
+        "decode_time_avg": 3.1948089599609377e-07,
+        "decode_time_std": 2.2166517828310893e-07,
+        "threshold_estimate": 0.01,
+        "confidence_interval": [
+          0.009000000000000001,
+          0.011000000000000001
+        ],
+        "samples": 1000
+      },
+      {
+        "code_type": "surface_code",
+        "code_distance": 3,
+        "physical_error_rate": 0.01,
+        "logical_error_rate": 0.828,
+        "error_suppression_factor": 0.01207729468599034,
+        "fidelity_without_qec": 0.9048374180359595,
+        "fidelity_with_qec": 0.0002535372000347304,
+        "fidelity_improvement": -0.9997197980598713,
+        "decode_time_avg": 0.0025856566429138185,
+        "decode_time_std": 0.02567995887000381,
+        "threshold_estimate": 0.01,
+        "confidence_interval": [
+          0.009000000000000001,
+          0.011000000000000001
+        ],
+        "samples": 1000
+      }
+    ],
+    "5": [
+      {
+        "code_type": "surface_code",
+        "code_distance": 5,
+        "physical_error_rate": 0.0001,
+        "logical_error_rate": 0.0,
+        "error_suppression_factor": Infinity,
+        "fidelity_without_qec": 0.9990004998333751,
+        "fidelity_with_qec": 1.0,
+        "fidelity_improvement": 0.0010005001667082,
+        "decode_time_avg": 4.6253204345703124e-07,
+        "decode_time_std": 2.735483075955099e-07,
+        "threshold_estimate": 0.01,
+        "confidence_interval": [
+          0.009000000000000001,
+          0.011000000000000001
+        ],
+        "samples": 1000
+      },
+      {
+        "code_type": "surface_code",
+        "code_distance": 5,
+        "physical_error_rate": 0.001,
+        "logical_error_rate": 0.0,
+        "error_suppression_factor": Infinity,
+        "fidelity_without_qec": 0.9900498337491681,
+        "fidelity_with_qec": 1.0,
+        "fidelity_improvement": 0.010050167084168003,
+        "decode_time_avg": 1.9526481628417968e-06,
+        "decode_time_std": 1.4245054006258165e-05,
+        "threshold_estimate": 0.01,
+        "confidence_interval": [
+          0.009000000000000001,
+          0.011000000000000001
+        ],
+        "samples": 1000
+      },
+      {
+        "code_type": "surface_code",
+        "code_distance": 5,
+        "physical_error_rate": 0.01,
+        "logical_error_rate": 0.733,
+        "error_suppression_factor": 0.013642564802182811,
+        "fidelity_without_qec": 0.9048374180359595,
+        "fidelity_with_qec": 0.0006555735871256958,
+        "fidelity_improvement": -0.9992754791368502,
+        "decode_time_avg": 2.1331310272216797e-05,
+        "decode_time_std": 0.00011203088084263781,
+        "threshold_estimate": 0.01,
+        "confidence_interval": [
+          0.009000000000000001,
+          0.011000000000000001
+        ],
+        "samples": 1000
+      }
+    ]
+  },
+  "fidelity_analysis": {
+    "surface_code": {
+      "Bell": {
+        "code_type": "surface_code",
+        "code_distance": 3,
+        "physical_error_rate": 0.001,
+        "logical_error_rate": 1.8000000000000017e-05,
+        "error_suppression_factor": 0.9879275653923542,
+        "fidelity_without_qec": 0.994,
+        "fidelity_with_qec": 0.982,
+        "fidelity_improvement": -0.012072434607645887,
+        "decode_time_avg": 0.001,
+        "decode_time_std": 0.0001,
+        "threshold_estimate": 0.01,
+        "confidence_interval": [
+          0.009,
+          0.011
+        ],
+        "samples": 500
+      },
+      "GHZ": {
+        "code_type": "surface_code",
+        "code_distance": 3,
+        "physical_error_rate": 0.001,
+        "logical_error_rate": 4.000000000000004e-05,
+        "error_suppression_factor": 0.9677419354838709,
+        "fidelity_without_qec": 0.992,
+        "fidelity_with_qec": 0.96,
+        "fidelity_improvement": -0.03225806451612906,
+        "decode_time_avg": 0.001,
+        "decode_time_std": 0.0001,
+        "threshold_estimate": 0.01,
+        "confidence_interval": [
+          0.009,
+          0.011
+        ],
+        "samples": 500
+      },
+      "Superposition": {
+        "code_type": "surface_code",
+        "code_distance": 3,
+        "physical_error_rate": 0.001,
+        "logical_error_rate": 4.000000000000004e-06,
+        "error_suppression_factor": 0.996,
+        "fidelity_without_qec": 1.0,
+        "fidelity_with_qec": 0.996,
+        "fidelity_improvement": -0.0040000000000000036,
+        "decode_time_avg": 0.001,
+        "decode_time_std": 0.0001,
+        "threshold_estimate": 0.01,
+        "confidence_interval": [
+          0.009,
+          0.011
+        ],
+        "samples": 500
+      }
+    },
+    "steane_code": {
+      "Bell": {
+        "code_type": "steane_code",
+        "code_distance": 3,
+        "physical_error_rate": 0.001,
+        "logical_error_rate": 2.000000000000002e-06,
+        "error_suppression_factor": 1.0060483870967742,
+        "fidelity_without_qec": 0.992,
+        "fidelity_with_qec": 0.998,
+        "fidelity_improvement": 0.006048387096774199,
+        "decode_time_avg": 0.001,
+        "decode_time_std": 0.0001,
+        "threshold_estimate": 0.01,
+        "confidence_interval": [
+          0.009,
+          0.011
+        ],
+        "samples": 500
+      },
+      "GHZ": {
+        "code_type": "steane_code",
+        "code_distance": 3,
+        "physical_error_rate": 0.001,
+        "logical_error_rate": 4.000000000000004e-06,
+        "error_suppression_factor": 1.0121951219512195,
+        "fidelity_without_qec": 0.984,
+        "fidelity_with_qec": 0.996,
+        "fidelity_improvement": 0.012195121951219523,
+        "decode_time_avg": 0.001,
+        "decode_time_std": 0.0001,
+        "threshold_estimate": 0.01,
+        "confidence_interval": [
+          0.009,
+          0.011
+        ],
+        "samples": 500
+      },
+      "Superposition": {
+        "code_type": "steane_code",
+        "code_distance": 3,
+        "physical_error_rate": 0.001,
+        "logical_error_rate": 2.000000000000002e-06,
+        "error_suppression_factor": 0.998,
+        "fidelity_without_qec": 1.0,
+        "fidelity_with_qec": 0.998,
+        "fidelity_improvement": -0.0020000000000000018,
+        "decode_time_avg": 0.001,
+        "decode_time_std": 0.0001,
+        "threshold_estimate": 0.01,
+        "confidence_interval": [
+          0.009,
+          0.011
+        ],
+        "samples": 500
+      }
+    }
+  },
+  "complexity_analysis": {
+    "MWPM_surface_code_d3": {
+      "decoder": "MWPM",
+      "code_type": "surface_code",
+      "distance": 3,
+      "performance": [
+        {
+          "error_rate": 0.001,
+          "decode_time": 1.7833709716796876e-06,
+          "success_rate": 0.01,
+          "memory_usage": 1000
+        },
+        {
+          "error_rate": 0.005,
+          "decode_time": 3.5762786865234375e-07,
+          "success_rate": 0.0,
+          "memory_usage": 1000
+        },
+        {
+          "error_rate": 0.01,
+          "decode_time": 4.096031188964844e-06,
+          "success_rate": 0.03,
+          "memory_usage": 1000
+        }
+      ]
+    },
+    "MWPM_surface_code_d5": {
+      "decoder": "MWPM",
+      "code_type": "surface_code",
+      "distance": 5,
+      "performance": [
+        {
+          "error_rate": 0.001,
+          "decode_time": 3.1566619873046876e-06,
+          "success_rate": 0.03,
+          "memory_usage": 1000
+        },
+        {
+          "error_rate": 0.005,
+          "decode_time": 7.040500640869141e-06,
+          "success_rate": 0.07,
+          "memory_usage": 1000
+        },
+        {
+          "error_rate": 0.01,
+          "decode_time": 9.481906890869141e-06,
+          "success_rate": 0.11,
+          "memory_usage": 1000
+        }
+      ]
+    },
+    "Union-Find_surface_code_d3": {
+      "decoder": "Union-Find",
+      "code_type": "surface_code",
+      "distance": 3,
+      "performance": [
+        {
+          "error_rate": 0.001,
+          "decode_time": 0.0015011858940124512,
+          "success_rate": 0.0,
+          "memory_usage": 1000
+        },
+        {
+          "error_rate": 0.005,
+          "decode_time": 1.227855682373047e-06,
+          "success_rate": 0.0,
+          "memory_usage": 1000
+        },
+        {
+          "error_rate": 0.01,
+          "decode_time": 1.0967254638671874e-06,
+          "success_rate": 0.0,
+          "memory_usage": 1000
+        }
+      ]
+    },
+    "Union-Find_surface_code_d5": {
+      "decoder": "Union-Find",
+      "code_type": "surface_code",
+      "distance": 5,
+      "performance": [
+        {
+          "error_rate": 0.001,
+          "decode_time": 1.5115737915039062e-06,
+          "success_rate": 0.0,
+          "memory_usage": 1000
+        },
+        {
+          "error_rate": 0.005,
+          "decode_time": 3.352165222167969e-06,
+          "success_rate": 0.0,
+          "memory_usage": 1000
+        },
+        {
+          "error_rate": 0.01,
+          "decode_time": 0.00023508310317993164,
+          "success_rate": 0.01,
+          "memory_usage": 1000
+        }
+      ]
+    },
+    "Lookup_steane_code_d3": {
+      "decoder": "Lookup",
+      "code_type": "steane_code",
+      "distance": 3,
+      "performance": [
+        {
+          "error_rate": 0.001,
+          "decode_time": 1.0442733764648437e-06,
+          "success_rate": 0.0,
+          "memory_usage": 1000
+        },
+        {
+          "error_rate": 0.005,
+          "decode_time": 1.468658447265625e-06,
+          "success_rate": 0.0,
+          "memory_usage": 1000
+        },
+        {
+          "error_rate": 0.01,
+          "decode_time": 1.6260147094726563e-06,
+          "success_rate": 0.0,
+          "memory_usage": 1000
+        }
+      ]
+    },
+    "ML_surface_code_d3": {
+      "decoder": "ML",
+      "code_type": "surface_code",
+      "distance": 3,
+      "performance": [
+        {
+          "error_rate": 0.001,
+          "decode_time": 1.6927719116210937e-06,
+          "success_rate": 0.01,
+          "memory_usage": 1000
+        },
+        {
+          "error_rate": 0.005,
+          "decode_time": 2.4509429931640623e-06,
+          "success_rate": 0.02,
+          "memory_usage": 1000
+        },
+        {
+          "error_rate": 0.01,
+          "decode_time": 3.192424774169922e-06,
+          "success_rate": 0.04,
+          "memory_usage": 1000
+        }
+      ]
+    }
+  },
+  "threshold_analysis": {
+    "code_type": "surface_code",
+    "distances": [
+      3,
+      5
+    ],
+    "error_rates": [
+      0.001,
+      0.0011993539462092342,
+      0.001438449888287663,
+      0.001725210549942041,
+      0.00206913808111479,
+      0.002481628922836826,
+      0.002976351441631319,
+      0.0035696988468260625,
+      0.004281332398719396,
+      0.005134832907437549,
+      0.006158482110660266,
+      0.007386199822079358,
+      0.008858667904100823,
+      0.010624678308940408,
+      0.012742749857031334,
+      0.015283067326587688,
+      0.018329807108324356,
+      0.02198392648862289,
+      0.02636650898730358,
+      0.03162277660168379
+    ],
+    "logical_error_rates": {
+      "3": [
+        0.005,
+        0.015,
+        0.025,
+        0.03,
+        0.055,
+        0.075,
+        0.08,
+        0.105,
+        0.145,
+        0.255,
+        0.305,
+        0.395,
+        0.69,
+        0.92,
+        0.515,
+        0.525,
+        0.49,
+        0.515,
+        0.515,
+        0.46
+      ],
+      "5": [
+        0.0,
+        0.0,
+        0.005,
+        0.0,
+        0.0,
+        0.0,
+        0.03,
+        0.04,
+        0.04,
+        0.115,
+        0.14,
+        0.225,
+        0.525,
+        0.91,
+        0.52,
+        0.5,
+        0.52,
+        0.55,
+        0.465,
+        0.485
+      ]
+    },
+    "threshold_estimate": 0.016667949045558902
+  }
+}

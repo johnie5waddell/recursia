@@ -1,0 +1,74 @@
+# Recursia Platform - Core Requirements
+# Production-ready dependencies for Recursia Quantum Computing Platform
+# For detailed installation options, see requirements-optimized.txt
+
+# ===========================
+# CORE DEPENDENCIES (REQUIRED)
+# ===========================
+
+# Scientific Computing Stack
+numpy>=1.19.0,<2.0.0              # Core numerical computing - CRITICAL
+scipy>=1.6.0,<2.0.0               # Scientific algorithms - CRITICAL  
+matplotlib>=3.3.0,<4.0.0          # Visualization and plotting - CRITICAL
+networkx>=2.5,<4.0.0              # Graph algorithms for quantum circuits - REQUIRED
+pandas>=1.3.0,<3.0.0              # Data manipulation for results - REQUIRED
+
+# Web Framework & API
+fastapi>=0.68.0,<1.0.0            # Modern async web framework - CRITICAL
+uvicorn[standard]>=0.15.0,<1.0.0  # ASGI server with HTTP/2 support - CRITICAL
+pydantic>=1.8.0,<3.0.0            # Data validation and serialization - CRITICAL
+starlette>=0.19.0,<1.0.0          # Core web components - REQUIRED
+websockets>=10.0,<12.0            # Real-time WebSocket communication - CRITICAL
+aiohttp>=3.8.0,<4.0.0             # Async HTTP client for external APIs - REQUIRED
+requests>=2.26.0,<3.0.0           # Synchronous HTTP requests - REQUIRED
+docopt>=0.6.2,<1.0.0
+dash>=3.1.0,<4.0.0
+dash-bootstrap-components>=2.0.3,<3.0.0
+
+# Visualization & Reporting
+Pillow>=8.3.0,<11.0.0             # Image processing - REQUIRED
+jinja2>=3.0.0,<4.0.0              # Template engine for reports - REQUIRED
+reportlab>=3.6.0,<5.0.0           # PDF generation for reports - REQUIRED
+seaborn>=0.11.0,<1.0.0            # Statistical visualization - REQUIRED
+plotly>=5.0.0,<6.0.0              # Interactive visualizations - REQUIRED
+
+# Security & Authentication
+bcrypt>=3.2.0,<5.0.0              # Password hashing - REQUIRED
+cryptography>=35.0.0,<43.0.0      # Cryptographic operations - REQUIRED
+PyJWT>=2.3.0,<3.0.0               # JSON Web Token handling - REQUIRED
+
+# System & Performance
+psutil>=5.8.0,<6.0.0              # System monitoring and resource management - CRITICAL
+zstandard>=0.16.0,<1.0.0          # High-performance compression - REQUIRED
+lz4>=3.1.0,<5.0.0                 # Fast compression for data streams - REQUIRED
+joblib>=1.0.0,<2.0.0              # Parallel processing utilities - REQUIRED
+statsmodels>=0.13.0,<1.0.0        # Statistical modeling - REQUIRED
+
+# Data Storage
+openpyxl>=3.0.0,<4.0.0            # Excel file handling - REQUIRED
+h5py>=3.0.0,<4.0.0                # HDF5 file support for large datasets - REQUIRED
+
+# Machine Learning & Performance
+torch>=2.0.0,<3.0.0               # PyTorch for ML decoder - REQUIRED
+numba>=0.56.0,<1.0.0              # JIT compilation for performance - REQUIRED
+scikit-learn>=1.0.0,<2.0.0        # ML utilities and algorithms - REQUIRED
+
+# Development & Quality
+pytest>=6.0.0,<8.0.0              # Testing framework - REQUIRED
+black>=21.5b2,<25.0.0             # Code formatting - REQUIRED
+mypy>=0.910,<2.0.0                # Static type checking - REQUIRED
+flake8>=3.9.2,<8.0.0              # Code linting - REQUIRED
+
+# Platform Support
+pywin32>=300; sys_platform == 'win32'  # Windows signal handling for proper Ctrl+C - REQUIRED on Windows
+
+# ===========================
+# OPTIONAL EXTENSIONS
+# ===========================
+# See requirements-optimized.txt for detailed optional packages:
+# - Quantum hardware backends (IBM, Google, Rigetti, IonQ)
+# - GPU acceleration (CUDA/CuPy)
+# - Advanced analytics (statsmodels, seaborn, plotly)
+# - Machine learning (scikit-learn, torch)
+# - High-performance computing (numba, mayavi)
+# - Infrastructure (redis, PostgreSQL)

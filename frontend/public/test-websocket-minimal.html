@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal WebSocket Test</title>
+</head>
+<body>
+    <h1>Minimal WebSocket Test</h1>
+    <div id="status">Connecting...</div>
+    <pre id="log"></pre>
+    
+    <script>
+        const status = document.getElementById('status');
+        const log = document.getElementById('log');
+        
+        function addLog(msg) {
+            log.textContent += new Date().toISOString() + ' - ' + msg + '\n';
+        }
+        
+        // Test 1: Proxied WebSocket through Vite
+        addLog('Testing proxied WebSocket...');
+        const ws1 = new WebSocket(`ws://${window.location.host}/ws`);
+        
+        ws1.onopen = () => {
+            addLog('✓ Proxied WebSocket connected!');
+            status.textContent = 'Connected via proxy!';
+            status.style.color = 'green';
+        };
+        
+        ws1.onerror = (e) => {
+            addLog('✗ Proxied WebSocket error');
+            console.error('Proxy error:', e);
+        };
+        
+        ws1.onclose = (e) => {
+            addLog(`Proxied WebSocket closed: ${e.code} ${e.reason}`);
+        };
+        
+        ws1.onmessage = (e) => {
+            const data = JSON.parse(e.data);
+            if (data.type === 'connection') {
+                addLog(`Received: ${data.type} - ${data.data.message}`);
+            } else if (data.type === 'metrics_update') {
+                addLog(`Metrics: universe_running=${data.data.universe_running}, iteration=${data.data.iteration_count}`);
+            }
+        };
+        
+        // Test 2: Direct WebSocket (after 2 seconds)
+        setTimeout(() => {
+            addLog('\nTesting direct WebSocket...');
+            const ws2 = new WebSocket('ws://localhost:8080/ws');
+            
+            ws2.onopen = () => {
+                addLog('✓ Direct WebSocket also connected!');
+                ws2.close();
+            };
+            
+            ws2.onerror = () => {
+                addLog('✗ Direct WebSocket error');
+            };
+        }, 2000);
+    </script>
+</body>
+</html>

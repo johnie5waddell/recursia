@@ -1,0 +1,169 @@
+# Recursia Platform - Production Requirements
+# Optimized based on comprehensive dependency audit
+# Version: 1.0.0 - Production Ready
+
+# ===========================
+# CORE SCIENTIFIC COMPUTING
+# ===========================
+# These are the fundamental dependencies for all quantum calculations
+numpy>=1.19.0,<2.0.0              # Core numerical computing - CRITICAL
+scipy>=1.6.0,<2.0.0               # Scientific algorithms - CRITICAL  
+matplotlib>=3.3.0,<4.0.0          # Visualization and plotting - CRITICAL
+networkx>=2.5,<4.0.0              # Graph algorithms for quantum circuits - REQUIRED
+pandas>=1.3.0,<3.0.0              # Data manipulation for results - REQUIRED
+
+# ===========================
+# WEB FRAMEWORK & API
+# ===========================
+# FastAPI stack for unified API server
+fastapi>=0.68.0,<1.0.0            # Modern async web framework - CRITICAL
+uvicorn[standard]>=0.15.0,<1.0.0  # ASGI server with HTTP/2 support - CRITICAL
+pydantic>=1.8.0,<3.0.0            # Data validation and serialization - CRITICAL
+starlette>=0.19.0,<1.0.0          # Core web components - REQUIRED
+websockets>=10.0,<12.0            # Real-time WebSocket communication - CRITICAL
+aiohttp>=3.8.0,<4.0.0             # Async HTTP client for external APIs - REQUIRED
+requests>=2.26.0,<3.0.0           # Synchronous HTTP requests - REQUIRED
+
+# ===========================
+# DASHBOARD & VISUALIZATION  
+# ===========================
+# Backend visualization and reporting
+jinja2>=3.0.0,<4.0.0              # Template engine for reports - REQUIRED
+Pillow>=8.3.0,<11.0.0             # Image processing - REQUIRED
+reportlab>=3.6.0,<5.0.0           # PDF generation for reports - REQUIRED
+
+# ===========================
+# SYSTEM UTILITIES
+# ===========================
+psutil>=5.8.0,<6.0.0              # System monitoring and resource management - CRITICAL
+
+# ===========================
+# SECURITY & AUTHENTICATION
+# ===========================
+bcrypt>=3.2.0,<5.0.0              # Password hashing - REQUIRED
+cryptography>=35.0.0,<43.0.0      # Cryptographic operations - REQUIRED
+PyJWT>=2.3.0,<3.0.0               # JSON Web Token handling - REQUIRED
+
+# ===========================
+# DATA STORAGE & COMPRESSION
+# ===========================
+openpyxl>=3.0.0,<4.0.0            # Excel file handling - REQUIRED
+zstandard>=0.16.0,<1.0.0          # High-performance compression - REQUIRED
+lz4>=3.1.0,<5.0.0                 # Fast compression for data streams - REQUIRED
+
+# ===========================
+# DEVELOPMENT & TESTING
+# ===========================
+pytest>=6.0.0,<8.0.0              # Testing framework - DEV
+black>=21.5b2,<25.0.0             # Code formatting - DEV
+mypy>=0.910,<2.0.0                # Static type checking - DEV
+flake8>=3.9.2,<8.0.0              # Code linting - DEV
+
+# ===========================
+# OPTIONAL SCIENTIFIC EXTENSIONS
+# ===========================
+# Uncomment these based on your specific needs
+
+# Advanced Statistics (if using statistical modeling features)
+# statsmodels>=0.13.0,<1.0.0
+
+# Enhanced Data Analysis (if using advanced data science features)
+# seaborn>=0.13.2,<1.0.0          # Statistical data visualization
+# plotly>=5.0.0,<6.0.0            # Interactive plotting
+
+# Machine Learning (if using ML optimization features)
+# scikit-learn>=1.0.0,<2.0.0      # General machine learning
+
+# ===========================
+# QUANTUM HARDWARE BACKENDS
+# ===========================
+# Uncomment only the quantum backends you plan to use
+# These provide access to real quantum hardware but increase installation complexity
+
+# IBM Quantum Hardware
+# qiskit>=0.34.0,<2.0.0           # IBM quantum backend
+
+# Google Quantum Hardware  
+# cirq>=0.13.0,<2.0.0             # Google quantum backend
+
+# Rigetti Quantum Hardware
+# pyquil>=3.0.0,<5.0.0            # Rigetti quantum backend
+
+# IonQ Quantum Hardware
+# ionq>=0.1.0,<1.0.0              # IonQ quantum backend
+
+# ===========================
+# HIGH-PERFORMANCE COMPUTING
+# ===========================
+# Uncomment for GPU acceleration and high-performance features
+# Requires additional system setup (CUDA, etc.)
+
+# GPU Acceleration (requires NVIDIA CUDA)
+# cupy>=9.0.0,<13.0.0             # GPU-accelerated numpy
+
+# Just-In-Time Compilation
+# numba>=0.54.0,<1.0.0            # JIT compilation for performance
+
+# Deep Learning (if using neural network features)
+# torch>=1.9.0,<3.0.0             # PyTorch deep learning
+
+# ===========================
+# ADVANCED ANALYSIS TOOLS
+# ===========================
+# Uncomment for specialized scientific analysis
+
+# Topological Data Analysis
+# ripser>=0.6.0,<1.0.0            # Persistent homology
+
+# 3D Visualization (requires additional system libraries)
+# mayavi>=4.7.0,<5.0.0            # 3D scientific visualization
+
+# ===========================
+# INFRASTRUCTURE & SCALING
+# ===========================
+# Uncomment for production deployment features
+
+# Caching and Performance
+# redis>=4.0.0,<6.0.0             # In-memory caching
+
+# Database Support
+# asyncpg>=0.25.0,<1.0.0          # PostgreSQL async driver
+# SQLAlchemy>=1.4.0,<3.0.0        # SQL toolkit
+
+# Voice Interface (experimental)
+# speech-recognition>=3.8.1,<4.0.0 # Voice commands
+
+# ===========================
+# INSTALLATION NOTES
+# ===========================
+
+# CORE INSTALLATION (minimum requirements):
+# pip install -r requirements-optimized.txt
+
+# WITH QUANTUM HARDWARE (uncomment relevant backends):
+# pip install -r requirements-optimized.txt qiskit cirq
+
+# WITH GPU ACCELERATION (requires CUDA):
+# pip install -r requirements-optimized.txt cupy numba
+
+# FULL SCIENTIFIC STACK (all optional packages):
+# pip install -r requirements-optimized.txt statsmodels seaborn plotly scikit-learn
+
+# FOR DEVELOPMENT (includes type checking and formatting):
+# pip install -r requirements-optimized.txt pytest black mypy flake8
+
+# ===========================
+# VERSION COMPATIBILITY
+# ===========================
+# Python: 3.8, 3.9, 3.10, 3.11, 3.12
+# Operating Systems: Linux, macOS, Windows
+# Architecture: x86_64, ARM64 (Apple Silicon)
+
+# ===========================
+# VIRTUAL ENVIRONMENT SETUP
+# ===========================
+# python3 -m venv venv
+# source venv/bin/activate          # Linux/macOS  
+# venv\Scripts\activate             # Windows
+# pip install --upgrade pip
+# pip install -r requirements-optimized.txt

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vite WebSocket Proxy Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #0f0;
+        }
+        #log {
+            white-space: pre-wrap;
+            padding: 10px;
+            background: #000;
+            border: 1px solid #0f0;
+            min-height: 400px;
+            overflow-y: auto;
+        }
+        .error { color: #f00; }
+        .success { color: #0f0; }
+        .info { color: #ff0; }
+    </style>
+</head>
+<body>
+    <h1>Vite WebSocket Proxy Test</h1>
+    <div id="log"></div>
+
+    <script>
+        const log = document.getElementById('log');
+        
+        function addLog(message, type = 'info') {
+            const timestamp = new Date().toISOString();
+            const div = document.createElement('div');
+            div.className = type;
+            div.textContent = `[${timestamp}] ${message}`;
+            log.appendChild(div);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        addLog('Starting WebSocket connection test...');
+        addLog(`Current location: ${window.location.host}`);
+        addLog(`Protocol: ${window.location.protocol}`);
+
+        // Test 1: Use relative path (should work with Vite proxy)
+        const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const proxyUrl = `${wsProtocol}//${window.location.host}/ws`;
+        addLog(`Attempting connection to: ${proxyUrl}`);
+
+        try {
+            const ws = new WebSocket(proxyUrl);
+            
+            ws.onopen = function() {
+                addLog('✓ WebSocket connected successfully via Vite proxy!', 'success');
+                addLog('Connection state: ' + ws.readyState, 'success');
+                
+                // Send a test message
+                ws.send(JSON.stringify({ type: 'ping' }));
+                addLog('Sent ping message');
+            };
+            
+            ws.onmessage = function(event) {
+                addLog('Received message: ' + event.data.substring(0, 200) + '...', 'success');
+                try {
+                    const data = JSON.parse(event.data);
+                    if (data.type === 'metrics_update') {
+                        addLog(`Metrics update received - universe_running: ${data.data.universe_running}, iteration: ${data.data.iteration_count}`, 'info');
+                    }
+                } catch (e) {
+                    // Not JSON
+                }
+            };
+            
+            ws.onerror = function(error) {
+                addLog('WebSocket error occurred', 'error');
+                console.error('WebSocket error:', error);
+            };
+            
+            ws.onclose = function(event) {
+                addLog(`WebSocket closed - Code: ${event.code}, Reason: ${event.reason || 'None'}`, 'error');
+            };
+            
+        } catch (e) {
+            addLog(`Failed to create WebSocket: ${e.message}`, 'error');
+        }
+
+        // Also test direct connection for comparison
+        setTimeout(() => {
+            addLog('\n--- Testing direct connection for comparison ---');
+            const directUrl = 'ws://localhost:8080/ws';
+            addLog(`Attempting direct connection to: ${directUrl}`);
+            
+            try {
+                const ws2 = new WebSocket(directUrl);
+                
+                ws2.onopen = function() {
+                    addLog('✓ Direct WebSocket connection also works!', 'success');
+                    ws2.close();
+                };
+                
+                ws2.onerror = function() {
+                    addLog('✗ Direct connection failed', 'error');
+                };
+                
+            } catch (e) {
+                addLog(`Direct connection error: ${e.message}`, 'error');
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

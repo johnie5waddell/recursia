@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Connection Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #0f0;
+        }
+        #log {
+            white-space: pre-wrap;
+            padding: 10px;
+            background: #000;
+            border: 1px solid #0f0;
+            min-height: 400px;
+            overflow-y: auto;
+        }
+        button {
+            margin: 5px;
+            padding: 10px;
+            background: #0f0;
+            color: #000;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0a0;
+        }
+        button:disabled {
+            background: #333;
+            color: #666;
+            cursor: not-allowed;
+        }
+        .connected {
+            color: #0f0;
+        }
+        .disconnected {
+            color: #f00;
+        }
+        .error {
+            color: #ff0;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebSocket Connection Test</h1>
+    <div>
+        <p>Status: <span id="status" class="disconnected">Disconnected</span></p>
+        <button id="connectBtn" onclick="connectWS()">Connect</button>
+        <button id="disconnectBtn" onclick="disconnectWS()" disabled>Disconnect</button>
+        <button id="pingBtn" onclick="sendPing()" disabled>Send Ping</button>
+        <button id="startUniverseBtn" onclick="startUniverse()" disabled>Start Universe</button>
+        <button id="clearBtn" onclick="clearLog()">Clear Log</button>
+    </div>
+    <h2>Connection Log:</h2>
+    <div id="log"></div>
+
+    <script>
+        let ws = null;
+        let messageCount = 0;
+        const log = document.getElementById('log');
+        const status = document.getElementById('status');
+        const connectBtn = document.getElementById('connectBtn');
+        const disconnectBtn = document.getElementById('disconnectBtn');
+        const pingBtn = document.getElementById('pingBtn');
+        const startUniverseBtn = document.getElementById('startUniverseBtn');
+
+        function addLog(message, type = 'info') {
+            const timestamp = new Date().toISOString();
+            const className = type === 'error' ? 'error' : '';
+            log.innerHTML += `<span class="${className}">[${timestamp}] ${message}</span>\n`;
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function updateStatus(text, className) {
+            status.textContent = text;
+            status.className = className;
+        }
+
+        function connectWS() {
+            addLog('Attempting to connect to WebSocket...');
+            
+            // Try different WebSocket URLs
+            const urls = [
+                'ws://localhost:8080/ws',
+                'ws://127.0.0.1:8080/ws',
+                `ws://${window.location.hostname}:8080/ws`
+            ];
+            
+            let connected = false;
+            
+            for (const url of urls) {
+                if (connected) break;
+                
+                try {
+                    addLog(`Trying URL: ${url}`);
+                    ws = new WebSocket(url);
+                    
+                    ws.onopen = function(event) {
+                        connected = true;
+                        addLog(`Connected successfully to ${url}!`, 'success');
+                        updateStatus('Connected', 'connected');
+                        connectBtn.disabled = true;
+                        disconnectBtn.disabled = false;
+                        pingBtn.disabled = false;
+                        startUniverseBtn.disabled = false;
+                    };
+
+                    ws.onmessage = function(event) {
+                        messageCount++;
+                        try {
+                            const data = JSON.parse(event.data);
+                            if (data.type === 'metrics_update') {
+                                addLog(`Message #${messageCount}: ${data.type} (universe_running: ${data.data.universe_running}, iteration: ${data.data.iteration_count})`);
+                            } else {
+                                addLog(`Message #${messageCount}: ${data.type} - ${JSON.stringify(data).substring(0, 200)}...`);
+                            }
+                        } catch (e) {
+                            addLog(`Message #${messageCount}: Raw data - ${event.data.substring(0, 100)}...`);
+                        }
+                    };
+
+                    ws.onerror = function(error) {
+                        addLog(`WebSocket error on ${url}: ${error}`, 'error');
+                        console.error('WebSocket error:', error);
+                    };
+
+                    ws.onclose = function(event) {
+                        addLog(`Connection closed: Code ${event.code}, Reason: ${event.reason || 'No reason provided'}`);
+                        updateStatus('Disconnected', 'disconnected');
+                        connectBtn.disabled = false;
+                        disconnectBtn.disabled = true;
+                        pingBtn.disabled = true;
+                        startUniverseBtn.disabled = true;
+                        ws = null;
+                    };
+                    
+                    // Wait a bit to see if connection succeeds
+                    setTimeout(() => {
+                        if (ws && ws.readyState === WebSocket.CONNECTING) {
+                            addLog(`Still connecting to ${url}...`);
+                        }
+                    }, 1000);
+                    
+                } catch (e) {
+                    addLog(`Failed to create WebSocket for ${url}: ${e.message}`, 'error');
+                }
+            }
+        }
+
+        function disconnectWS() {
+            if (ws) {
+                addLog('Closing WebSocket connection...');
+                ws.close();
+            }
+        }
+
+        function sendPing() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                const message = JSON.stringify({ type: 'ping' });
+                ws.send(message);
+                addLog(`Sent: ${message}`);
+            } else {
+                addLog('WebSocket not connected!', 'error');
+            }
+        }
+
+        function startUniverse() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                const message = JSON.stringify({ 
+                    type: 'start_universe', 
+                    data: { mode: 'standard' } 
+                });
+                ws.send(message);
+                addLog(`Sent: ${message}`);
+            } else {
+                addLog('WebSocket not connected!', 'error');
+            }
+        }
+
+        function clearLog() {
+            log.innerHTML = '';
+            messageCount = 0;
+        }
+
+        // Log WebSocket availability
+        if (typeof WebSocket !== 'undefined') {
+            addLog('WebSocket API is available');
+        } else {
+            addLog('WebSocket API is NOT available!', 'error');
+        }
+
+        // Auto-connect on load
+        window.addEventListener('load', () => {
+            addLog('Page loaded, ready to connect');
+            // Uncomment to auto-connect:
+            // connectWS();
+        });
+    </script>
+</body>
+</html>

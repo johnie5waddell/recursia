@@ -1,0 +1,44 @@
+// Quantum Phase Kickback
+// Demonstrates phase kickback phenomenon
+
+state control_qubit : quantum_type {
+  state_qubits: 1,
+  state_coherence: 1.0
+};
+
+state target_qubit : quantum_type {
+  state_qubits: 1,
+  state_coherence: 1.0
+};
+
+observer phase_monitor : standard_observer {
+  observer_focus: control_qubit,
+  observer_collapse_threshold: 0.7,
+  observer_self_awareness: 0.4
+};
+
+print "Demonstrating phase kickback...";
+
+// Prepare control in superposition
+apply H_gate to control_qubit qubit 0;
+
+// Prepare target in |1⟩ state (eigenstate of Z)
+apply X_gate to target_qubit qubit 0;
+
+print "Control in superposition, target in |1⟩";
+
+// For demonstration, apply Z gate to control (simulating phase kickback)
+apply Z_gate to control_qubit qubit 0;
+
+// Another H on control to see the phase
+apply H_gate to control_qubit qubit 0;
+
+// Measure control
+let control_result = 0;
+measure control_qubit qubit 0 into control_result;
+
+print "Control measurement:";
+print control_result;
+print "Phase has been kicked back to control qubit";
+
+// Phase kickback demonstrated
